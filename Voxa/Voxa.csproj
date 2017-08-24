@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8E68C502-BA86-462B-8D71-CF5B0EF61BE0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Voxa</RootNamespace>
+    <AssemblyName>Voxa</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.2.0.0\lib\net20\OpenTK.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Scenes\TestScene.cs" />
+    <Compile Include="Assets\Scripts\RotateTest.cs" />
+    <Compile Include="Assets\Scripts\LightTest.cs" />
+    <Compile Include="Logic\FirstPersonCamera.cs" />
+    <Compile Include="Objects\Camera.cs" />
+    <Compile Include="Objects\Component.cs" />
+    <Compile Include="Objects\Light.cs" />
+    <Compile Include="Objects\Mesh.cs" />
+    <Compile Include="Objects\PointLight.cs" />
+    <Compile Include="Objects\Renderer\IRenderer.cs" />
+    <Compile Include="Objects\Renderer\ModelRenderer.cs" />
+    <Compile Include="Objects\Renderer\Shape\BlockRenderer.cs" />
+    <Compile Include="Objects\Renderer\Shape\ShapeRenderer.cs" />
+    <Compile Include="Objects\GameObject.cs" />
+    <Compile Include="Logic\Game.cs" />
+    <Compile Include="Objects\StaticModel.cs" />
+    <Compile Include="Objects\Transform.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Rendering\ColouredVertex.cs" />
+    <Compile Include="Rendering\EngineWindow.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rendering\RenderingPool.cs" />
+    <Compile Include="Rendering\Shader.cs" />
+    <Compile Include="Rendering\ShaderProgram.cs" />
+    <Compile Include="Rendering\Texture.cs" />
+    <Compile Include="Rendering\TexturedVertex.cs" />
+    <Compile Include="Rendering\Uniforms\FloatUniform.cs" />
+    <Compile Include="Rendering\Uniforms\LightUniform.cs" />
+    <Compile Include="Rendering\Uniforms\Matrix3Uniform.cs" />
+    <Compile Include="Rendering\Uniforms\Matrix4Uniform.cs" />
+    <Compile Include="Rendering\Uniforms\Sampler2DUniform.cs" />
+    <Compile Include="Rendering\Uniforms\Vector3Uniform.cs" />
+    <Compile Include="Rendering\Uniforms\Vector4Uniform.cs" />
+    <Compile Include="Rendering\VertexArray.cs" />
+    <Compile Include="Rendering\VertexAttribute.cs" />
+    <Compile Include="Rendering\VertexBuffer.cs" />
+    <Compile Include="Objects\Scene.cs" />
+    <Compile Include="Primitives\Shape\Block.cs" />
+    <Compile Include="Utils\GLTFParser.cs" />
+    <Compile Include="Utils\Logger.cs" />
+    <Compile Include="Utils\MathExtensions.cs" />
+    <Compile Include="Utils\ResourceManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EmbeddedResource Include="Assets\Models\Box.gltf" />
+    <EmbeddedResource Include="Assets\Models\Box0.bin" />
+    <EmbeddedResource Include="Assets\Models\CesiumMilkTruck.gltf" />
+    <EmbeddedResource Include="Assets\Models\CesiumMilkTruck0.bin" />
+    <EmbeddedResource Include="Assets\Models\Hotel.gltf" />
+    <EmbeddedResource Include="Assets\Models\Hotel0.bin" />
+    <EmbeddedResource Include="Assets\Models\Truck.gltf" />
+    <EmbeddedResource Include="Assets\Models\Truck0.bin" />
+    <EmbeddedResource Include="Assets\Models\BoxTextured.gltf" />
+    <EmbeddedResource Include="Assets\Models\BoxTextured0.bin" />
+    <None Include="OpenTK.dll.config" />
+    <None Include="packages.config" />
+    <EmbeddedResource Include="Assets\Shaders\BasicFragmentShader.frag" />
+    <EmbeddedResource Include="Assets\Shaders\BasicShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Models\CesiumMilkTruck.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Models\CesiumLogoFlat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Textures\WhitePixel.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
