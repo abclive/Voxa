@@ -26,7 +26,7 @@ namespace Voxa.Rendering
         {
             base.OnLoad(e);
 
-            GL.ClearColor(0.2f, 0.2f, 0.7f, 0.0f);
+            GL.ClearColor(0.12f, 0.48f, 0.69f, 1.0f);
 
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Texture2D);

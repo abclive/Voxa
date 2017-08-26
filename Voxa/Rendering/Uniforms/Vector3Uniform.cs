@@ -26,6 +26,11 @@ namespace Voxa.Rendering.Uniforms
             this.Value = new Vector3(value.R, value.G, value.B);
         }
 
+        public Vector3Uniform(string name)
+        {
+            this.name = name;
+        }
+
         public void Set(ShaderProgram program)
         {
             // Get uniform location

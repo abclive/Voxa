@@ -55,7 +55,7 @@ namespace Voxa.Assets.Scenes
             this.AddGameObject(truck);
 
             GameObject light = new GameObject("Test light");
-            light.AttachComponent(new Light(new Color4(0.8f, 0.75f, 0.6f, 1)));
+            light.AttachComponent(new Light(Color4.White));
             light.AttachComponent(new LightTest());
             this.AddGameObject(light);
 

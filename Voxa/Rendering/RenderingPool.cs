@@ -25,6 +25,7 @@ namespace Voxa.Rendering
         public Sampler2DUniform ActiveTextureUniform;
         public LightUniform     CurrentLightUniform;
         public Matrix3Uniform   NormalMatrixUniform;
+        public Vector3Uniform   CameraPositionUniform;
 
         public RenderingPool()
         {
@@ -48,6 +49,7 @@ namespace Voxa.Rendering
             this.ActiveTextureUniform = new Sampler2DUniform("tex");
             this.CurrentLightUniform = new LightUniform("light");
             this.NormalMatrixUniform = new Matrix3Uniform("normalMatrix");
+            this.CameraPositionUniform = new Vector3Uniform("cameraPosition");
 
             this.loaded = true;
         }
@@ -68,11 +70,13 @@ namespace Voxa.Rendering
             {
                 Matrix4 modelview = this.renderCamera.GetViewMatrix();
                 this.projectionMatrixUniform.Matrix = Matrix4.Mult(modelview, this.projectionMatrix);
+                this.CameraPositionUniform.Value = this.renderCamera.GetGameObject().Transform.Position;
 
                 // Activate shader program and set uniforms
                 this.shaderProgram.Use();
                 this.projectionMatrixUniform.Set(this.shaderProgram);
                 this.ActiveTextureUniform.Set(this.shaderProgram);
+                this.CameraPositionUniform.Set(this.shaderProgram);
                 Engine.Game.CurrentScene.SetShadingUniforms();
 
                 // Render the pool list
