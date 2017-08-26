@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics;
+using Voxa.Rendering.Uniforms;
 
 namespace Voxa.Objects
 {
@@ -36,9 +37,10 @@ namespace Voxa.Objects
 
         public void Bind()
         {
-            Engine.RenderingPool.CurrentLightUniform.Color = new Vector3(this.Color.R, this.Color.G, this.Color.B);
-            Engine.RenderingPool.CurrentLightUniform.Position = this.gameObject.Transform.Position;
-            Engine.RenderingPool.CurrentLightUniform.Set(Engine.RenderingPool.ShaderProgam);
+            LightUniform currentLightUniform = Engine.UniformManager.GetUniform<LightUniform>("light");
+            currentLightUniform.Color = new Vector3(this.Color.R, this.Color.G, this.Color.B);
+            currentLightUniform.Position = this.gameObject.Transform.Position;
+            currentLightUniform.Set(Engine.RenderingPool.ShaderProgam);
         }
     }
 }

@@ -1,12 +1,20 @@
 ﻿#version 150
 
-uniform sampler2D tex;
+struct Material {
+	sampler2D diffuseMap;
+	sampler2D specularMap;
+	vec3	  ambientColor;
+	vec3	  diffuseColor;
+	vec3	  specularColor;
+	float	  shininess;
+};
 
 struct Light {
 	vec3 position;
 	vec3 color;
 };
 
+uniform Material material;
 uniform Light light;
 uniform vec3 ambientLightColor;
 uniform float ambientLightStrength;
@@ -25,18 +33,16 @@ void main()
 	vec3  normal = normalize(fNormal);
 	vec3  lightDir = normalize(light.position - fPosition);
 	float diff = max(dot(normal, lightDir), 0.0);
-	vec3  diffuseColor = diff * light.color;
+	vec3  diffuse = light.color * (diff * material.diffuseColor) * vec3(texture(material.diffuseMap, fTexCoord));
 
 	// Specular lighting calculations
-	float specularStrength = 0.5f;
 	vec3  viewDir = normalize(cameraPosition - fPosition);
 	vec3  reflectDir = reflect(-lightDir, normal);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-	vec3  specular = specularStrength * spec * light.color; 
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+	vec3  specular = light.color * (spec * material.specularColor) * vec3(texture(material.specularMap, fTexCoord)); 
 
 	// Ambient lighting calculations
-	vec4 ambientColor = vec4((ambientLightStrength * ambientLightColor), 1);
+	vec3 ambient = ambientLightStrength * ambientLightColor * material.ambientColor * vec3(texture(material.diffuseMap, fTexCoord));
 
-	vec4 objectColor = (ambientColor + vec4(diffuseColor, 1) + vec4(specular, 1)) * fColor;
-	fragColor = texture(tex, fTexCoord) * objectColor;
+	fragColor = vec4(ambient + diffuse + specular, 1);
 }

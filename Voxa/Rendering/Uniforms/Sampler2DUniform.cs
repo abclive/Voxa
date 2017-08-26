@@ -7,7 +7,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Voxa.Rendering.Uniforms
 {
-    sealed class Sampler2DUniform
+    sealed class Sampler2DUniform : IUniform
     {
         private readonly string name;
         public int SamplerId;
@@ -25,6 +25,11 @@ namespace Voxa.Rendering.Uniforms
 
             // Set uniform value
             GL.Uniform1(i, this.SamplerId);
+        }
+
+        public string GetName()
+        {
+            return this.name;
         }
     }
 }

@@ -9,7 +9,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Voxa.Rendering.Uniforms
 {
-    sealed class Vector3Uniform
+    sealed class Vector3Uniform : IUniform
     {
         private readonly string name;
         public Vector3 Value;
@@ -38,6 +38,11 @@ namespace Voxa.Rendering.Uniforms
 
             // Set uniform value
             GL.Uniform3(i, this.Value);
+        }
+
+        public string GetName()
+        {
+            return this.name;
         }
     }
 }

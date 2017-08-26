@@ -11,35 +11,27 @@ namespace Voxa
 {
     class Engine
     {
-        public const int             VERSION_MAJOR = 0;
-        public const int             VERSION_MINOR = 1;
+        public const int              VERSION_MAJOR = 0;
+        public const int              VERSION_MINOR = 1;
 
-        public const int             WINDOW_WIDTH = 640;
-        public const int             WINDOW_HEIGHT = 400;
-        public const int             RENDER_DISTANCE = 1;
-        public const double          TARGET_UPDATE_RATE = 60.0;
-        private static EngineWindow  engineWindow;
-        private static RenderingPool renderingPool;
-        private static Game          game;
+        public const int              WINDOW_WIDTH = 640;
+        public const int              WINDOW_HEIGHT = 400;
+        public const int              RENDER_DISTANCE = 1;
+        public const double           TARGET_UPDATE_RATE = 60.0;
+        private static EngineWindow   engineWindow;
+        private static RenderingPool  renderingPool;
+        private static UniformManager uniformManager;
+        private static Game           game;
 
-        public static Texture        WhitePixelTexture;
+        public static Texture         WhitePixelTexture;
 
-        public static EngineWindow   EngineWindow { get { return engineWindow; } }
+        public static EngineWindow    EngineWindow { get { return engineWindow; } }
 
-        public static RenderingPool  RenderingPool {
-            get
-            {
-                return renderingPool;
-            }
-        }
+        public static RenderingPool   RenderingPool { get { return renderingPool; } }
 
-        public static Game Game
-        {
-            get
-            {
-                return game;
-            }
-        }
+        public static UniformManager  UniformManager { get { return uniformManager; } }
+
+        public static Game            Game { get { return game; } }
 
         public Engine()
         {
@@ -54,6 +46,7 @@ namespace Voxa
             game = new Game();
             engineWindow = new EngineWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
             renderingPool = new RenderingPool();
+            uniformManager = new UniformManager();
             engineWindow.Run(TARGET_UPDATE_RATE, 0.0);
         }
     }

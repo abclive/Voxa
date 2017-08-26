@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Voxa.Rendering;
+using Voxa.Rendering.Uniforms;
 using Voxa.Utils;
 
 namespace Voxa.Objects.Renderer
@@ -41,8 +42,8 @@ namespace Voxa.Objects.Renderer
                         new VertexAttribute("vTexCoord", 2, VertexAttribPointerType.Float, TexturedVertex.Size, 28),
                         new VertexAttribute("vNormal", 3, VertexAttribPointerType.Float, TexturedVertex.Size, 36)
                     ));
-                    if (primitive.PrimitiveTexture != null)
-                        primitive.PrimitiveTexture.Load();
+                    if (!Model.Materials[primitive.MaterialModelId].IsLoaded)
+                        Model.Materials[primitive.MaterialModelId].Load();
                 }
             }
             this.UpdateAllVertexBuffers();
@@ -61,8 +62,9 @@ namespace Voxa.Objects.Renderer
                 if (mesh.LocalMatrix != Matrix4.Identity) {
                     transformMatrix = mesh.LocalMatrix * transformMatrix;
                 }
-                Engine.RenderingPool.NormalMatrixUniform.Matrix = Matrix3.Transpose(new Matrix3(transformMatrix.Inverted()));
-                Engine.RenderingPool.NormalMatrixUniform.Set(Engine.RenderingPool.ShaderProgam);
+                Matrix3Uniform normalMatrixUniform = Engine.UniformManager.GetUniform<Matrix3Uniform>("normalMatrix");
+                normalMatrixUniform.Matrix = Matrix3.Transpose(new Matrix3(transformMatrix.Inverted()));
+                normalMatrixUniform.Set(Engine.RenderingPool.ShaderProgam);
 
                 foreach (Mesh.Primitive primitive in mesh.Primitives) {
                     // Bind vertex buffer and array objects
@@ -71,11 +73,9 @@ namespace Voxa.Objects.Renderer
 
                     // Upload vertices to GPU and draw them
                     this.vertexBuffers[primitive.GUID].BufferData();
-                    if (primitive.PrimitiveTexture != null) {
-                        primitive.PrimitiveTexture.Bind();
-                    } else {
-                        Engine.WhitePixelTexture.Bind();
-                    }
+
+                    // Bind primitive Material
+                    Model.Materials[primitive.MaterialModelId].Bind(Engine.RenderingPool.ShaderProgam);
 
                     if (primitive.Indices.Count == 0) {
                         this.vertexBuffers[primitive.GUID].Draw();

@@ -9,10 +9,17 @@ namespace Voxa.Objects
     class StaticModel : Component
     {
         public Mesh[] Meshes = new Mesh[0];
+        public Material[] Materials = new Material[0];
 
         public StaticModel(Mesh[] meshes)
         {
             this.Meshes = meshes;
+        }
+
+        public StaticModel(Mesh[] meshes, Material[] materials)
+        {
+            this.Meshes = meshes;
+            this.Materials = materials;
         }
 
         public int GetPrimitivesCount()

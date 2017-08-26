@@ -34,7 +34,7 @@ namespace Voxa.Assets.Scenes
             GameObject testModel = new GameObject("Model test");
             GLTFLoader modelLoader = new GLTFLoader("Voxa.Assets.Models", "CesiumMilkTruck.gltf");
 
-            StaticModel modelComponent = new StaticModel(modelLoader.GetAllMeshes().ToArray());
+            StaticModel modelComponent = new StaticModel(modelLoader.GetAllMeshes().ToArray(), modelLoader.GetAllMaterials().ToArray());
             Logger.Info("Successfully loaded model");
             testModel.AttachComponent(modelComponent);
             testModel.AttachComponent(new ModelRenderer(modelComponent));
@@ -42,17 +42,17 @@ namespace Voxa.Assets.Scenes
 
             this.AddGameObject(testModel);
 
-            GameObject truck = new GameObject("Model test");
-            modelLoader = new GLTFLoader("Voxa.Assets.Models", "Truck.gltf");
+            //GameObject truck = new GameObject("Model test");
+            //modelLoader = new GLTFLoader("Voxa.Assets.Models", "Hotel.gltf");
 
-            modelComponent = new StaticModel(modelLoader.GetAllMeshes().ToArray());
-            Logger.Info("Successfully loaded model");
-            truck.AttachComponent(modelComponent);
-            truck.AttachComponent(new ModelRenderer(modelComponent));
-            truck.Transform.Position = new Vector3(30, 0, 0);
-            truck.Transform.Scale = new Vector3(0.2f, 0.2f, 0.2f);
+            //modelComponent = new StaticModel(modelLoader.GetAllMeshes().ToArray(), modelLoader.GetAllMaterials().ToArray());
+            //Logger.Info("Successfully loaded model");
+            //truck.AttachComponent(modelComponent);
+            //truck.AttachComponent(new ModelRenderer(modelComponent));
+            //truck.Transform.Position = new Vector3(30, 0, 0);
+            //truck.Transform.Scale = new Vector3(0.2f, 0.2f, 0.2f);
 
-            this.AddGameObject(truck);
+            //this.AddGameObject(truck);
 
             GameObject light = new GameObject("Test light");
             light.AttachComponent(new Light(Color4.White));

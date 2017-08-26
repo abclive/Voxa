@@ -9,7 +9,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Voxa.Rendering.Uniforms
 {
-    sealed class LightUniform
+    sealed class LightUniform : IUniform
     {
         private readonly string name;
         public Vector3 Position;
@@ -40,6 +40,11 @@ namespace Voxa.Rendering.Uniforms
             GL.Uniform3(i, this.Position);
             i = program.GetUniformLocation(this.name + ".color");
             GL.Uniform3(i, this.Color);
+        }
+
+        public string GetName()
+        {
+            return this.name;
         }
     }
 }

@@ -7,7 +7,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Voxa.Rendering.Uniforms
 {
-    sealed class FloatUniform
+    sealed class FloatUniform : IUniform
     {
         private readonly string name;
         public float Value;
@@ -25,6 +25,11 @@ namespace Voxa.Rendering.Uniforms
 
             // Set uniform value
             GL.Uniform1(i, this.Value);
+        }
+
+        public string GetName()
+        {
+            return this.name;
         }
     }
 }

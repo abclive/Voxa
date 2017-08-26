@@ -6,6 +6,7 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using OpenTK;
 using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 using Voxa.Objects;
 using Voxa.Rendering;
 
@@ -33,6 +34,86 @@ namespace Voxa.Utils
             {
                 _buffers[i] = ResourceManager.GetBinaryResourceReader(_resourcePath + "." + (string)_json["buffers"][i]["uri"]);
             }
+        }
+
+        public List<Material> GetAllMaterials()
+        {
+            List<Material> materials = new List<Material>();
+
+            JArray materialsJson = (JArray)(_json["materials"]);
+            for (int i = 0; i < materialsJson.Count; i++) {
+                materials.Add(this.GetMaterial(i));
+            }
+
+            return materials;
+        }
+
+        public Material GetMaterial(int materialId)
+        {
+            Material material = new Material(materialId);
+            JObject materialJson = (JObject)_json["materials"][materialId];
+            if (materialJson != null) {
+                if (materialJson["name"] != null) {
+                    material.Name = (string)materialJson["name"];
+                }
+
+                if (materialJson["extensions"] != null && materialJson["extensions"]["KHR_materials_common"] != null) {
+                    JObject materialInfo = (JObject)materialJson["extensions"]["KHR_materials_common"]["values"];
+                    if ((string)materialJson["extensions"]["KHR_materials_common"]["technique"] != "PHONG") {
+                        Logger.Warning($"Voxa doesn't support {(string)materialInfo["technique"]} shader technique. Phong shading technique will be used instead.");
+                    }
+                    JArray diffuse = (JArray)materialInfo["diffuse"];
+                    if (diffuse != null && diffuse.Count == 1) { // Diffuse texture
+                        string textureResourcePath = this.getTextureResourcePath((int)diffuse[0]);
+                        material.DiffuseMap = new Texture(textureResourcePath);
+                    } else if (diffuse != null && diffuse.Count >= 3) { // Diffuse color
+                        float alpha = (diffuse[3] != null) ? (float)diffuse[3] : 1;
+                        material.DiffuseColor = new Color4((float)diffuse[0], (float)diffuse[1], (float)diffuse[2], alpha);
+                    } else {
+                        material.DiffuseColor = Color4.White;
+                    }
+                    JArray specular = (JArray)materialInfo["specular"];
+                    if (specular != null && specular.Count == 1) { // Specular texture
+                        string textureResourcePath = this.getTextureResourcePath((int)specular[0]);
+                        material.SpecularMap = new Texture(textureResourcePath);
+                        material.SpecularMap.Unit = TextureUnit.Texture1;
+                    } else if (specular != null && specular.Count >= 3) { // Specular color
+                        float alpha = (specular[3] != null) ? (float)specular[3] : 1;
+                        material.SpecularColor = new Color4((float)specular[0], (float)specular[1], (float)specular[2], alpha);
+                    } else {
+                        material.SpecularColor = Color4.White;
+                    }
+                    JArray ambient = (JArray)materialInfo["ambient"];
+                    if (ambient != null && ambient.Count == 4) {
+                        float alpha = (ambient[3] != null) ? (float)ambient[3] : 1;
+                        material.AmbientColor = new Color4((float)ambient[0], (float)ambient[1], (float)ambient[2], alpha);
+                    } else {
+                        material.AmbientColor = (material.DiffuseColor.A > 0) ? material.DiffuseColor : Color4.White;
+                    }
+                    if (materialInfo["shininess"] != null)
+                        material.Shininess = (float)materialInfo["shininess"][0];
+                } else if (materialJson["pbrMetallicRoughness"] != null) {
+                    JObject materialInfo = (JObject)materialJson["pbrMetallicRoughness"];
+                    if (materialInfo["baseColorTexture"] != null) {
+                        string textureResourcePath = this.getTextureResourcePath((int)materialInfo["baseColorTexture"]["index"]);
+                        material.DiffuseMap = new Texture(textureResourcePath);
+                        material.SpecularColor = Color4.White;
+                    } else if (materialInfo["baseColorFactor"] != null) {
+                        JArray color = (JArray)materialJson["pbrMetallicRoughness"]["baseColorFactor"];
+                        float alpha = (color[3] != null) ? (float)color[3] : 1;
+                        material.DiffuseColor = new Color4((float)color[0], (float)color[1], (float)color[2], alpha);
+                        material.SpecularColor = material.DiffuseColor;
+                    }
+                    material.AmbientColor = material.SpecularColor;
+                    material.Shininess = 16;
+                } else {
+                    Logger.Error($"{materialId} Material type not supported");
+                    return null;
+                }
+
+                return material;
+            }
+            return null;
         }
 
         public List<Mesh> GetAllMeshes()
@@ -79,35 +160,11 @@ namespace Voxa.Utils
             int meshId = (int)nodeJson["mesh"];
             JObject meshJson = (JObject)_json["meshes"][meshId];
 
-            //if (((JArray)meshJson["primitives"]).Count > 1) Logger.Warning($"Found multiple primitives for mesh {meshId} but only a single one is supported at the moment.");
-
             List<Mesh.Primitive> primitives = new List<Mesh.Primitive>();
             foreach (JObject primitiveJson in (JArray)meshJson["primitives"]) {
                 
                 // Material
                 int materialId = (int)primitiveJson["material"];
-                var materialJson = _json["materials"][materialId];
-
-                int textureId = -1;
-                string imageResourcePath = null;
-
-                Color4 vertexColor = Color4.White;
-                if (materialJson["pbrMetallicRoughness"]["baseColorTexture"] != null) {
-                    textureId = (int)materialJson["pbrMetallicRoughness"]["baseColorTexture"]["index"];
-                } else if (materialJson["pbrMetallicRoughness"]["baseColorFactor"] != null) {
-                    // Shader diffuse color
-                    JArray color = (JArray)materialJson["pbrMetallicRoughness"]["baseColorFactor"];
-                    float alpha = (color[3] != null) ? (float)color[3] : 0;
-                    vertexColor = new Color4((float)color[0], (float)color[1], (float)color[2], alpha);
-                }
-
-                if (textureId >= 0) {
-                    var textureJson = _json["textures"][textureId];
-
-                    int imageId = (int)textureJson["source"];
-                    var imageJson = _json["images"][imageId];
-                    imageResourcePath = _resourcePath + "." + (string)imageJson["uri"];
-                }
 
                 // Geometry
                 if (primitiveJson["mode"] == null || (GLTFPrimitiveMode)(int)primitiveJson["mode"] != GLTFPrimitiveMode.TRIANGLES) {
@@ -144,7 +201,7 @@ namespace Voxa.Utils
 
                     var position = new Vector3(buffer.ReadSingle(), buffer.ReadSingle(), buffer.ReadSingle());
                     staticVertices[i].Position = position;
-                    staticVertices[i].Color = vertexColor;
+                    staticVertices[i].Color = Color4.White;
                 }
 
                 // Normals
@@ -170,7 +227,7 @@ namespace Voxa.Utils
                 }
 
                 // Texture coordinates
-                if (imageResourcePath != null) {
+                if (primitiveJson["attributes"]["TEXCOORD_0"] != null) {
                     int attributeAccessorId = (int)primitiveJson["attributes"]["TEXCOORD_0"];
 
                     if (primitiveJson["attributes"]["TEXCOORD_1"] != null)
@@ -219,11 +276,7 @@ namespace Voxa.Utils
                 }
 
                 Mesh.Primitive primitive = new Mesh.Primitive(staticVertices.ToList(), indices.ToList());
-
-                if (imageResourcePath != null) {
-                    primitive.PrimitiveTexture = new Texture(imageResourcePath);
-                }
-
+                primitive.MaterialModelId = materialId;
                 primitives.Add(primitive);
             }
 
@@ -240,6 +293,15 @@ namespace Voxa.Utils
             }
 
             return mesh;
+        }
+
+        private string getTextureResourcePath(int textureId)
+        {
+            var textureJson = _json["textures"][textureId];
+
+            int imageId = (int)textureJson["source"];
+            var imageJson = _json["images"][imageId];
+            return _resourcePath + "." + (string)imageJson["uri"];
         }
 
         enum GLTFConst

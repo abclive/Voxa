@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Voxa.Rendering.Uniforms
 {
-    sealed class Matrix3Uniform
+    sealed class Matrix3Uniform : IUniform
     {
         private readonly string name;
 
@@ -32,6 +32,11 @@ namespace Voxa.Rendering.Uniforms
 
             // Set uniform value
             GL.UniformMatrix3(i, false, ref this.Matrix);
+        }
+
+        public string GetName()
+        {
+            return this.name;
         }
     }
 }

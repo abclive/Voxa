@@ -122,11 +122,30 @@
     ],
     "materials": [
         {
-            "pbrMetallicRoughness": {
-                "baseColorTexture": {
-                    "index": 0
-                },
-                "metallicFactor": 0.0
+            "extensions": {
+                "KHR_materials_common": {
+                    "doubleSided": false,
+                    "technique": "PHONG",
+                    "transparent": false,
+                    "values": {
+                        "diffuse": [
+                            0
+                        ],
+                        "specular": [
+                            0.20000000298023225,
+                            0.20000000298023225,
+                            0.20000000298023225,
+                            1.0
+                        ],
+                        "shininess": [
+                            256.0
+                        ],
+                        "transparency": [
+                            1.0
+                        ]
+                    },
+                    "name": "Texture"
+                }
             },
             "name": "Texture"
         }
@@ -177,5 +196,11 @@
             "byteLength": 840,
             "uri": "BoxTextured0.bin"
         }
+    ],
+    "extensionsRequired": [
+        "KHR_materials_common"
+    ],
+    "extensionsUsed": [
+        "KHR_materials_common"
     ]
 }

@@ -458,44 +458,120 @@
     ],
     "materials": [
         {
-            "pbrMetallicRoughness": {
-                "baseColorTexture": {
-                    "index": 0
-                },
-                "metallicFactor": 0.0
+            "extensions": {
+                "KHR_materials_common": {
+                    "doubleSided": false,
+                    "technique": "PHONG",
+                    "transparent": false,
+                    "values": {
+                        "diffuse": [
+                            0
+                        ],
+                        "specular": [
+                            0.03999999910593033,
+                            0.03999999910593033,
+                            0.03999999910593033,
+                            1.0
+                        ],
+                        "shininess": [
+                            256.0
+                        ],
+                        "transparency": [
+                            1.0
+                        ]
+                    },
+                    "name": "truck"
+                }
             },
             "name": "truck"
         },
         {
-            "pbrMetallicRoughness": {
-                "baseColorFactor": [
-                    0.0,
-                    0.04050629958510399,
-                    0.021240700036287309,
-                    1.0
-                ],
-                "metallicFactor": 0.0
+            "extensions": {
+                "KHR_materials_common": {
+                    "doubleSided": false,
+                    "technique": "PHONG",
+                    "transparent": false,
+                    "values": {
+                        "diffuse": [
+                            0.0,
+                            0.04050629958510399,
+                            0.021240700036287309,
+                            1.0
+                        ],
+                        "specular": [
+                            0.6499999761581421,
+                            0.6499999761581421,
+                            0.6499999761581421,
+                            1.0
+                        ],
+                        "shininess": [
+                            256.0
+                        ],
+                        "transparency": [
+                            1.0
+                        ]
+                    },
+                    "name": "glass"
+                }
             },
             "name": "glass"
         },
         {
-            "pbrMetallicRoughness": {
-                "baseColorFactor": [
-                    0.06400000303983689,
-                    0.06400000303983689,
-                    0.06400000303983689,
-                    1.0
-                ],
-                "metallicFactor": 0.0
+            "extensions": {
+                "KHR_materials_common": {
+                    "doubleSided": false,
+                    "technique": "PHONG",
+                    "transparent": false,
+                    "values": {
+                        "diffuse": [
+                            0.06400000303983689,
+                            0.06400000303983689,
+                            0.06400000303983689,
+                            1.0
+                        ],
+                        "specular": [
+                            0.03999999910593033,
+                            0.03999999910593033,
+                            0.03999999910593033,
+                            1.0
+                        ],
+                        "shininess": [
+                            256.0
+                        ],
+                        "transparency": [
+                            1.0
+                        ]
+                    },
+                    "name": "window_trim"
+                }
             },
             "name": "window_trim"
         },
         {
-            "pbrMetallicRoughness": {
-                "baseColorTexture": {
-                    "index": 1
-                },
-                "metallicFactor": 0.0
+            "extensions": {
+                "KHR_materials_common": {
+                    "doubleSided": false,
+                    "technique": "PHONG",
+                    "transparent": false,
+                    "values": {
+                        "diffuse": [
+                            1
+                        ],
+                        "specular": [
+                            0.03999999910593033,
+                            0.03999999910593033,
+                            0.03999999910593033,
+                            1.0
+                        ],
+                        "shininess": [
+                            256.0
+                        ],
+                        "transparency": [
+                            1.0
+                        ]
+                    },
+                    "name": "wheels"
+                }
             },
             "name": "wheels"
         }
@@ -560,5 +636,11 @@
             "byteLength": 109384,
             "uri": "CesiumMilkTruck0.bin"
         }
+    ],
+    "extensionsRequired": [
+        "KHR_materials_common"
+    ],
+    "extensionsUsed": [
+        "KHR_materials_common"
     ]
 }

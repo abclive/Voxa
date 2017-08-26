@@ -74,6 +74,7 @@
     <Compile Include="Objects\Camera.cs" />
     <Compile Include="Objects\Component.cs" />
     <Compile Include="Objects\Light.cs" />
+    <Compile Include="Objects\Material.cs" />
     <Compile Include="Objects\Mesh.cs" />
     <Compile Include="Objects\PointLight.cs" />
     <Compile Include="Objects\Renderer\IRenderer.cs" />
@@ -98,8 +99,11 @@
     <Compile Include="Rendering\ShaderProgram.cs" />
     <Compile Include="Rendering\Texture.cs" />
     <Compile Include="Rendering\TexturedVertex.cs" />
+    <Compile Include="Rendering\UniformManager.cs" />
     <Compile Include="Rendering\Uniforms\FloatUniform.cs" />
+    <Compile Include="Rendering\Uniforms\IUniform.cs" />
     <Compile Include="Rendering\Uniforms\LightUniform.cs" />
+    <Compile Include="Rendering\Uniforms\MaterialUniform.cs" />
     <Compile Include="Rendering\Uniforms\Matrix3Uniform.cs" />
     <Compile Include="Rendering\Uniforms\Matrix4Uniform.cs" />
     <Compile Include="Rendering\Uniforms\Sampler2DUniform.cs" />
@@ -119,14 +123,14 @@
     <None Include="App.config" />
     <EmbeddedResource Include="Assets\Models\Box.gltf" />
     <EmbeddedResource Include="Assets\Models\Box0.bin" />
-    <EmbeddedResource Include="Assets\Models\CesiumMilkTruck.gltf" />
-    <EmbeddedResource Include="Assets\Models\CesiumMilkTruck0.bin" />
     <EmbeddedResource Include="Assets\Models\Hotel.gltf" />
     <EmbeddedResource Include="Assets\Models\Hotel0.bin" />
     <EmbeddedResource Include="Assets\Models\Truck.gltf" />
     <EmbeddedResource Include="Assets\Models\Truck0.bin" />
     <EmbeddedResource Include="Assets\Models\BoxTextured.gltf" />
     <EmbeddedResource Include="Assets\Models\BoxTextured0.bin" />
+    <EmbeddedResource Include="Assets\Models\CesiumMilkTruck.gltf" />
+    <EmbeddedResource Include="Assets\Models\CesiumMilkTruck0.bin" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Assets\Shaders\BasicFragmentShader.frag" />

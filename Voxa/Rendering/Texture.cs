@@ -31,6 +31,7 @@ namespace Voxa.Rendering
         public bool FlipY = false;
         public FilteringMode Filtering = FilteringMode.LINEAR;
         public RepeatMode Repeat = RepeatMode.REPEAT;
+        public TextureUnit Unit = TextureUnit.Texture0;
 
         private Bitmap textureBitmap;
         private BitmapData textureData;
@@ -43,7 +44,7 @@ namespace Voxa.Rendering
 
         public void Bind()
         {
-            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.ActiveTexture(this.Unit);
             GL.BindTexture(TextureTarget.Texture2D, this.textureId);
         }
 

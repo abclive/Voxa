@@ -14,23 +14,15 @@ namespace Voxa.Objects
         {
             public List<TexturedVertex> Vertices;
             public List<ushort> Indices;
-            public Texture PrimitiveTexture;
             public Guid GUID;
+            public int MaterialModelId;
 
-            public Primitive(List<TexturedVertex> vertices, List<ushort> indices)
+            public Primitive(List<TexturedVertex> vertices, List<ushort> indices, int materialModelId = 0)
             {
                 this.Vertices = vertices;
                 this.Indices = indices;
-                this.PrimitiveTexture = null;
                 this.GUID = Guid.NewGuid();
-            }
-
-            public Primitive(List<TexturedVertex> vertices, List<ushort> indices, Texture primitiveTexture)
-            {
-                this.Vertices = vertices;
-                this.Indices = indices;
-                this.PrimitiveTexture = primitiveTexture;
-                this.GUID = Guid.NewGuid();
+                this.MaterialModelId = materialModelId;
             }
         }
 
