@@ -31,32 +31,33 @@ namespace Voxa.Assets.Scenes
 
         public override void Load()
         {
-            GameObject testModel = new GameObject("Model test");
-            GLTFLoader modelLoader = new GLTFLoader("Voxa.Assets.Models", "CesiumMilkTruck.gltf");
+            GameObject hotel = new GameObject("Hotel");
+            GLTFLoader modelLoader = new GLTFLoader("Voxa.Assets.Models", "Hotel.gltf");
 
             StaticModel modelComponent = new StaticModel(modelLoader.GetAllMeshes().ToArray(), modelLoader.GetAllMaterials().ToArray());
             Logger.Info("Successfully loaded model");
-            testModel.AttachComponent(modelComponent);
-            testModel.AttachComponent(new ModelRenderer(modelComponent));
-            testModel.AttachComponent(new RotateTest());
+            hotel.AttachComponent(modelComponent);
+            hotel.AttachComponent(new ModelRenderer(modelComponent));
+            hotel.Transform.Scale = new Vector3(0.2f, 0.2f, 0.2f);
 
-            this.AddGameObject(testModel);
+            GameObject truck = new GameObject("Model test");
+            modelLoader = new GLTFLoader("Voxa.Assets.Models", "CesiumMilkTruck.gltf");
 
-            //GameObject truck = new GameObject("Model test");
-            //modelLoader = new GLTFLoader("Voxa.Assets.Models", "Hotel.gltf");
+            modelComponent = new StaticModel(modelLoader.GetAllMeshes().ToArray(), modelLoader.GetAllMaterials().ToArray());
+            Logger.Info("Successfully loaded model");
+            truck.AttachComponent(modelComponent);
+            truck.AttachComponent(new ModelRenderer(modelComponent));
+            truck.AttachComponent(new RotateTest());
+            truck.Transform.Position = new Vector3(5, 0, 0);
 
-            //modelComponent = new StaticModel(modelLoader.GetAllMeshes().ToArray(), modelLoader.GetAllMaterials().ToArray());
-            //Logger.Info("Successfully loaded model");
-            //truck.AttachComponent(modelComponent);
-            //truck.AttachComponent(new ModelRenderer(modelComponent));
-            //truck.Transform.Position = new Vector3(30, 0, 0);
-            //truck.Transform.Scale = new Vector3(0.2f, 0.2f, 0.2f);
+            this.AddGameObject(truck);
+            //truck.Transform.SetParent(hotel.Transform);
+            this.AddGameObject(hotel);
 
-            //this.AddGameObject(truck);
-
-            GameObject light = new GameObject("Test light");
+            GameObject light = new GameObject("Light");
             light.AttachComponent(new Light(Color4.White));
             light.AttachComponent(new LightTest());
+            light.Transform.SetParent(this.activeCamera.Transform);
             this.AddGameObject(light);
 
             base.Load();

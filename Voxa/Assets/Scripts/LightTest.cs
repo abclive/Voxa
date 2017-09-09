@@ -5,31 +5,33 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
 using Voxa.Objects;
+using Voxa.Utils;
 
 namespace Voxa.Assets.Scripts
 {
     class LightTest : Component
     {
+        public override void OnLoad()
+        {
+            base.OnLoad();
+            Logger.AddStickyInfo("lightPos");
+            Engine.EngineWindow.KeyPress += OnKeyPress;
+        }
+
+        private void OnKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 'f') {
+                if (this.gameObject.Transform.GetParent() != null)
+                    this.gameObject.Transform.DetachFromParent();
+                else
+                    this.gameObject.Transform.SetParent(Engine.Game.CurrentScene.GetActiveCamera().GetGameObject().Transform);
+            }
+        }
+
         public override void OnUpdate()
         {
             base.OnUpdate();
-            Vector3 updatedPos = this.gameObject.Transform.Position;
-            if (Engine.EngineWindow.Keyboard[OpenTK.Input.Key.I]) {
-                updatedPos.Y += 0.1f;
-            }
-            if (Engine.EngineWindow.Keyboard[OpenTK.Input.Key.K]) {
-                updatedPos.Y -= 0.1f;
-            }
-            if (Engine.EngineWindow.Keyboard[OpenTK.Input.Key.J]) {
-                updatedPos.X -= 0.1f;
-            }
-            if (Engine.EngineWindow.Keyboard[OpenTK.Input.Key.L]) {
-                updatedPos.X += 0.1f;
-            }
-            if (Engine.EngineWindow.Keyboard[OpenTK.Input.Key.F]) {
-                updatedPos = Engine.Game.CurrentScene.GetActiveCamera().GetGameObject().Transform.Position;
-            }
-            this.gameObject.Transform.Position = updatedPos;
+            Logger.UpdateStickyInfo("lightPos", this.gameObject.Transform.Position.ToString());
         }
     }
 }

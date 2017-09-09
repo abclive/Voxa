@@ -9,26 +9,31 @@ namespace Voxa.Objects
 {
     class Transform : Component
     {
-        private Vector3         position;
-        private Vector3         eulerRotation;
-        private Quaternion      rotation;
-        private Vector3         scale;
+        private Vector3 position;
+        private Vector3 eulerRotation;
+        private Quaternion rotation;
+        private Vector3 scale;
 
-        private Vector3         localPosition;
-        private Vector3         localEulerRotation;
-        private Quaternion      localRotation;
-        private Vector3         localScale;
+        private Vector3 localPosition;
+        private Vector3 localEulerRotation;
+        private Quaternion localRotation;
+        private Vector3 localScale;
 
-        private Matrix4         localToWorldMatrix = Matrix4.Identity;
-        private Matrix4         worldToLocalMatrix = Matrix4.Identity;
-        private Transform       parent;
+        private Matrix4 localToWorldMatrix = Matrix4.Identity;
+        private Matrix4 worldToLocalMatrix = Matrix4.Identity;
+        private Transform parent;
         private List<Transform> children;
-        private bool            isDirty = false;
-        private bool            isInverseDirty = false;
+        private bool isDirty = false;
+        private bool isInverseDirty = false;
+        private bool isValuesDirty = false;
 
         public Vector3 Position
         {
-            get { return this.position; }
+            get {
+                if (this.isValuesDirty)
+                    this.UpdateValuesFromParent();
+                return this.position;
+            }
             set { this.position = value; this.updateLocalFromWorldPosition(); this.setDirty(); }
         }
 
@@ -99,6 +104,14 @@ namespace Voxa.Objects
             this.setDirty();
         }
 
+        public void DetachFromParent()
+        {
+            if (this.parent != null) {
+                this.parent.RemoveChild(this);
+            }
+            this.parent = null;
+        }
+
         public void RemoveChild(Transform child)
         {
             this.children.Remove(child);
@@ -111,18 +124,27 @@ namespace Voxa.Objects
 
         private void setDirty()
         {
-            if (!this.isDirty)
-            {
-                this.isDirty = true;
-                this.isInverseDirty = true;
+            this.isDirty = true;
+            this.isInverseDirty = true;
+            this.isValuesDirty = true;
 
-                // set all children to be dirty since any modification
-                // of a parent transform also effects its children's
-                // localToWorldTransform
-                foreach (Transform child in this.children) {
-                    child.setDirty();
-                }
+            // set all children to be dirty since any modification
+            // of a parent transform also effects its children's
+            // localToWorldTransform
+            foreach (Transform child in this.children) {
+                child.setDirty();
             }
+        }
+
+        public void UpdateValuesFromParent()
+        {
+            foreach (Transform child in this.children) {
+                child.UpdateValuesFromParent();
+            }
+            if (this.parent != null) {
+                this.position = this.parent.position + this.localPosition;
+            }
+            this.isValuesDirty = false;
         }
 
         public Matrix4 GetLocalToParentMatrix()
@@ -131,7 +153,7 @@ namespace Voxa.Objects
             Matrix4 rotationMatrix = Matrix4.CreateFromQuaternion(this.rotation);
             Matrix4 scaleMatrix = Matrix4.CreateScale(this.scale);
 
-            return translationMatrix * rotationMatrix * scaleMatrix;
+            return scaleMatrix * rotationMatrix * translationMatrix;
         }
 
         public Matrix4 GetLocalToWorldMatrix()

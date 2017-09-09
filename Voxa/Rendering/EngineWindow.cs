@@ -16,7 +16,7 @@ namespace Voxa.Rendering
     {
         public Vector2 LastMousePos = new Vector2();
 
-        public EngineWindow(int windowWidth, int windowHeight) : base(windowWidth, windowHeight, GraphicsMode.Default, "Voxa", GameWindowFlags.Default, DisplayDevice.Default, 3, 0, GraphicsContextFlags.ForwardCompatible)
+        public EngineWindow(int windowWidth, int windowHeight) : base(windowWidth, windowHeight, new GraphicsMode(32, 1, 0, 4), "Voxa", GameWindowFlags.Default, DisplayDevice.Default, 3, 0, GraphicsContextFlags.ForwardCompatible)
         {
             VSync = VSyncMode.Off;
             Logger.Info("OpenGL version: " + GL.GetString(StringName.Version));
@@ -28,6 +28,7 @@ namespace Voxa.Rendering
 
             GL.ClearColor(0.12f, 0.48f, 0.69f, 1.0f);
 
+            GL.Enable(EnableCap.Multisample);
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Texture2D);
             GL.Enable(EnableCap.Blend);
