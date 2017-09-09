@@ -109,8 +109,11 @@ namespace Voxa.Utils
             {
                 skippedFrames = 0;
                 Console.SetCursorPosition(0, 0);
+                int i = 0;
                 foreach (KeyValuePair<string, LoggerMessage> stickyLog in stickyLogs)
                 {
+                    Console.WriteLine(new String(' ', Console.WindowWidth));
+                    Console.SetCursorPosition(0, i++);
                     printLoggerMessage(stickyLog.Value);
                 }
             }
