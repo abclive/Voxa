@@ -10,7 +10,7 @@ using Voxa.Rendering.Uniforms;
 
 namespace Voxa.Rendering
 {
-    class UniformManager
+    public class UniformManager
     {
         private Dictionary<string, IUniform> uniformList = new Dictionary<string, IUniform>();
 

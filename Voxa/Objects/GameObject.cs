@@ -7,7 +7,7 @@ using OpenTK;
 
 namespace Voxa.Objects
 {
-    class GameObject
+    public class GameObject
     {
         private List<Component> componentList;
         public string           Name { get; private set; }

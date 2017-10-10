@@ -12,7 +12,7 @@ using Voxa.Objects.Renderer;
 
 namespace Voxa.Rendering
 {
-    sealed class RenderingPool
+    public sealed class RenderingPool
     {
         private Matrix4         projectionMatrix;
         private ShaderProgram   shaderProgram;

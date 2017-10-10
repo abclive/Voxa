@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8E68C502-BA86-462B-8D71-CF5B0EF61BE0}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Voxa</RootNamespace>
     <AssemblyName>Voxa</AssemblyName>
@@ -48,6 +48,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -67,9 +70,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scenes\TestScene.cs" />
-    <Compile Include="Assets\Scripts\RotateTest.cs" />
-    <Compile Include="Assets\Scripts\LightTest.cs" />
     <Compile Include="Logic\FirstPersonCamera.cs" />
     <Compile Include="Objects\Camera.cs" />
     <Compile Include="Objects\Component.cs" />
@@ -79,12 +79,12 @@
     <Compile Include="Objects\PointLight.cs" />
     <Compile Include="Objects\Renderer\IRenderer.cs" />
     <Compile Include="Objects\Renderer\ModelRenderer.cs" />
-    <Compile Include="Objects\Renderer\Shape\BlockRenderer.cs" />
-    <Compile Include="Objects\Renderer\Shape\ShapeRenderer.cs" />
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Logic\Game.cs" />
     <Compile Include="Objects\StaticModel.cs" />
     <Compile Include="Objects\Transform.cs" />
+    <Compile Include="Primitives\Shape\Plane.cs" />
+    <Compile Include="Primitives\Shape\Sphere.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -121,16 +121,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EmbeddedResource Include="Assets\Models\Box.gltf" />
-    <EmbeddedResource Include="Assets\Models\Box0.bin" />
-    <EmbeddedResource Include="Assets\Models\Hotel.gltf" />
-    <EmbeddedResource Include="Assets\Models\Hotel0.bin" />
-    <EmbeddedResource Include="Assets\Models\Truck.gltf" />
-    <EmbeddedResource Include="Assets\Models\Truck0.bin" />
-    <EmbeddedResource Include="Assets\Models\BoxTextured.gltf" />
-    <EmbeddedResource Include="Assets\Models\BoxTextured0.bin" />
-    <EmbeddedResource Include="Assets\Models\CesiumMilkTruck.gltf" />
-    <EmbeddedResource Include="Assets\Models\CesiumMilkTruck0.bin" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Assets\Shaders\BasicFragmentShader.frag" />
@@ -153,12 +143,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Assets\Models\CesiumMilkTruck.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Assets\Models\CesiumLogoFlat.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\Textures\WhitePixel.png" />

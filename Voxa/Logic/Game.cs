@@ -5,12 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
 using Voxa.Objects;
-using Voxa.Assets.Scenes;
 using Voxa.Utils;
 
 namespace Voxa.Logic
 {
-    sealed class Game
+    public class Game
     {
         private double updateElapsedTime = 0;
         private double renderElapsedTime = 0;
@@ -22,10 +21,9 @@ namespace Voxa.Logic
             Logger.AddStickyInfo("engineStats", new LoggerMessage("", ConsoleColor.Blue));
         }
 
-        public void Start()
+        public virtual void Start()
         {
             Engine.RenderingPool.Load();
-            this.LoadScene(new TestScene());
         }
 
         public void LoadScene(Scene sceneToload)
@@ -34,7 +32,7 @@ namespace Voxa.Logic
             sceneToload.Load();
         }
 
-        public void Update(FrameEventArgs e)
+        public virtual void Update(FrameEventArgs e)
         {
             this.updateElapsedTime = e.Time;
             if (this.CurrentScene != null) {
@@ -44,7 +42,7 @@ namespace Voxa.Logic
             Logger.UpdateStickyDisplay();
         }
 
-        public void Render(FrameEventArgs e)
+        public virtual void Render(FrameEventArgs e)
         {
             this.renderElapsedTime = e.Time;
             Engine.RenderingPool.RenderPool();

@@ -8,7 +8,7 @@ using Voxa.Rendering;
 
 namespace Voxa.Objects
 {
-    class Mesh
+    public class Mesh
     {
         public struct Primitive
         {
@@ -21,6 +21,14 @@ namespace Voxa.Objects
             {
                 this.Vertices = vertices;
                 this.Indices = indices;
+                this.GUID = Guid.NewGuid();
+                this.MaterialModelId = materialModelId;
+            }
+
+            public Primitive(List<TexturedVertex> vertices, int materialModelId = 0)
+            {
+                this.Vertices = vertices;
+                this.Indices = new List<ushort>();
                 this.GUID = Guid.NewGuid();
                 this.MaterialModelId = materialModelId;
             }

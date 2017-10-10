@@ -9,7 +9,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Voxa.Rendering.Uniforms
 {
-    sealed class MaterialUniform : IUniform
+    public sealed class MaterialUniform : IUniform
     {
         private readonly string name;
         public Texture DiffuseMap;

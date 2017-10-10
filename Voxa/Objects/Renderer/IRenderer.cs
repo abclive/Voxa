@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Voxa.Objects.Renderer
 {
-    interface IRenderer
+    public interface IRenderer
     {
         void Render();
     }

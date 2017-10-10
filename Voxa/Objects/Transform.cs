@@ -7,7 +7,7 @@ using OpenTK;
 
 namespace Voxa.Objects
 {
-    class Transform : Component
+    public class Transform : Component
     {
         private Vector3 position;
         private Vector3 eulerRotation;

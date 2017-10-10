@@ -10,7 +10,7 @@ using Voxa.Utils;
 
 namespace Voxa.Objects
 {
-    class Scene
+    public class Scene
     {
         public AmbientLight SceneLight = new AmbientLight(Color4.White, 1);
 

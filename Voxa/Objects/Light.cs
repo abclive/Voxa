@@ -9,7 +9,7 @@ using Voxa.Rendering.Uniforms;
 
 namespace Voxa.Objects
 {
-    struct AmbientLight
+    public struct AmbientLight
     {
         public Color4 Color;
         public float Strength;
@@ -21,7 +21,7 @@ namespace Voxa.Objects
         }
     }
 
-    class Light : Component
+    public class Light : Component
     {
         public Color4 Color;
 

@@ -8,7 +8,7 @@ using OpenTK.Graphics;
 
 namespace Voxa.Rendering
 {
-    struct TexturedVertex
+    public struct TexturedVertex
     {
         public const int Size = (3 + 2 + 4 + 3) * 4; // Size of struct in bytes
 

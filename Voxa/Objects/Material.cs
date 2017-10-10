@@ -11,7 +11,7 @@ using Voxa.Rendering.Uniforms;
 
 namespace Voxa.Objects
 {
-    class Material
+    public class Material
     {
         public int     ModelId;
         public string  Name;

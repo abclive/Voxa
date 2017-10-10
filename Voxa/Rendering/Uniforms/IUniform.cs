@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Voxa.Rendering.Uniforms
 {
-    interface IUniform
+    public interface IUniform
     {
         string GetName();
         void Set(ShaderProgram program);

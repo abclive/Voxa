@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Voxa.Objects
 {
-    class StaticModel : Component
+    public class StaticModel : Component
     {
         public Mesh[] Meshes = new Mesh[0];
         public Material[] Materials = new Material[0];
@@ -21,6 +21,9 @@ namespace Voxa.Objects
             this.Meshes = meshes;
             this.Materials = materials;
         }
+
+        public StaticModel()
+        {}
 
         public int GetPrimitivesCount()
         {

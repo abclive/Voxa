@@ -12,7 +12,7 @@ namespace Voxa.Utils
     {
         public static string GetTextResource(string resourcePath)
         {
-            var assembly = Assembly.GetExecutingAssembly();
+            Assembly assembly = GetAssemblyContext(resourcePath);
 
             using (Stream stream = assembly.GetManifestResourceStream(resourcePath))
             using (StreamReader reader = new StreamReader(stream))
@@ -24,7 +24,7 @@ namespace Voxa.Utils
 
         public static BinaryReader GetBinaryResourceReader(string resourcePath)
         {
-            var assembly = Assembly.GetExecutingAssembly();
+            Assembly assembly = GetAssemblyContext(resourcePath);
 
             Stream stream = assembly.GetManifestResourceStream(resourcePath);
             return new BinaryReader(stream);
@@ -32,10 +32,22 @@ namespace Voxa.Utils
 
         public static Stream GetFileStream(string resourcePath)
         {
-            var assembly = Assembly.GetExecutingAssembly();
+            Assembly assembly = GetAssemblyContext(resourcePath);
 
             Stream stream = assembly.GetManifestResourceStream(resourcePath);
             return stream;
+        }
+
+        private static Assembly GetAssemblyContext(string resourcePath)
+        {
+            string assemblyName = resourcePath.Split('.')[0];
+            Assembly assembly;
+            if (assemblyName == "Voxa") {
+                assembly = Assembly.GetExecutingAssembly();
+            } else {
+                assembly = Assembly.GetEntryAssembly();
+            }
+            return assembly;
         }
     }
 }

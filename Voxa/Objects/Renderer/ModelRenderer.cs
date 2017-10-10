@@ -11,7 +11,7 @@ using Voxa.Utils;
 
 namespace Voxa.Objects.Renderer
 {
-    class ModelRenderer : Component, IRenderer
+    public class ModelRenderer : Component, IRenderer
     {
         public StaticModel Model;
 

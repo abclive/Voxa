@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace Voxa.Utils
 {
-    struct LoggerMessage
+    public struct LoggerMessage
     {
         public ConsoleColor ForegroundColor;
         public ConsoleColor BackgroundColor;
@@ -36,7 +36,7 @@ namespace Voxa.Utils
         }
     }
 
-    static class Logger
+    public static class Logger
     {
         const int UPDATE_SKIP_FRAMES = 30;
         private static int skippedFrames = 0;

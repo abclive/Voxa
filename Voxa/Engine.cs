@@ -9,7 +9,7 @@ using Voxa.Utils;
 
 namespace Voxa
 {
-    class Engine
+    public class Engine
     {
         public const int              VERSION_MAJOR = 0;
         public const int              VERSION_MINOR = 1;
@@ -38,12 +38,12 @@ namespace Voxa
         }
 
         [STAThread]
-        static void Main()
+        public static void Start(Game gameInstance)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
             Logger.AddStickyInfo("voxaInfo", new LoggerMessage("V O X A - Lite 3D Engine v" + VERSION_MAJOR + "." + VERSION_MINOR, ConsoleColor.Cyan));
             Logger.Info("Starting Voxa Engine v" + VERSION_MAJOR + "." + VERSION_MINOR);
-            game = new Game();
+            game = gameInstance;
             engineWindow = new EngineWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
             renderingPool = new RenderingPool();
             uniformManager = new UniformManager();

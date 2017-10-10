@@ -10,7 +10,7 @@ using Voxa.Utils;
 
 namespace Voxa.Rendering
 {
-    class Texture
+    public class Texture
     {
         public enum FilteringMode
         {

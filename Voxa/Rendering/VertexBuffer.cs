@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Voxa.Rendering
 {
-    sealed class VertexBuffer<TVertex> where TVertex : struct
+    public sealed class VertexBuffer<TVertex> where TVertex : struct
     {
         private PrimitiveType primitiveType;
         private readonly int  handle;

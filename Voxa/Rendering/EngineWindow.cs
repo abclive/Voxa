@@ -12,7 +12,7 @@ using Voxa.Utils;
 
 namespace Voxa.Rendering
 {
-    sealed class EngineWindow : GameWindow
+    public sealed class EngineWindow : GameWindow
     {
         public Vector2 LastMousePos = new Vector2();
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Voxa.Objects
 {
-    class Component
+    public class Component
     {
         protected GameObject gameObject;
 

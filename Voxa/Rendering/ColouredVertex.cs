@@ -8,7 +8,7 @@ using OpenTK.Graphics;
 
 namespace Voxa.Rendering
 {
-    struct ColouredVertex
+    public struct ColouredVertex
     {
         public const int Size = (3 + 4 + 3) * 4; // Size of struct in bytes
 

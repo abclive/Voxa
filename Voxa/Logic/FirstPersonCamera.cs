@@ -10,7 +10,7 @@ using Voxa.Utils;
 
 namespace Voxa.Logic
 {
-    class FirstPersonCamera : Component
+    public class FirstPersonCamera : Component
     {
         public override void OnLoad()
         {

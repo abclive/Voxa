@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Voxa.Rendering
 {
-    sealed class VertexAttribute
+    public sealed class VertexAttribute
     {
         private readonly string                  name;
         private readonly int                     size;

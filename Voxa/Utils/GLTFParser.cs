@@ -12,7 +12,7 @@ using Voxa.Rendering;
 
 namespace Voxa.Utils
 {
-    class GLTFLoader
+    public class GLTFLoader
     {
         // See https://github.com/javagl/gltfOverview/releases
         readonly JObject _json;

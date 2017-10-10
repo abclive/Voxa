@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Voxa.Rendering
 {
-    sealed class VertexArray<TVertex> where TVertex : struct
+    public sealed class VertexArray<TVertex> where TVertex : struct
     {
         private readonly int handle;
         private bool         vertexArrayGenerated;

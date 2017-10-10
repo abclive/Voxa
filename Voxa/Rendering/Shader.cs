@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Voxa.Rendering
 {
-    class Shader
+    public class Shader
     {
         private readonly int handle;
         private bool         disposed = false;
