@@ -7,7 +7,7 @@ using OpenTK;
 
 namespace Voxa.Utils
 {
-    static class MathExtensions
+    public static class MathExtensions
     {
         public static float Distance(this Vector3 vec, Vector3 target)
         {

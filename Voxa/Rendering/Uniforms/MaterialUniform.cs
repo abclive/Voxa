@@ -74,11 +74,10 @@ namespace Voxa.Rendering.Uniforms
             }
             if (this.SpecularMap != null) {
                 uHandle = program.GetUniformLocation(this.name + ".specularMap");
+                this.SpecularMap.Unit = TextureUnit.Texture1;
                 this.SpecularMap.Bind();
                 GL.Uniform1(uHandle, 1);
                 this.SpecularColor = new Vector3(1, 1, 1);
-                Engine.WhitePixelTexture.Unit = TextureUnit.Texture1;
-                Engine.WhitePixelTexture.Bind();
             }
             uHandle = program.GetUniformLocation(this.name + ".ambientColor");
             GL.Uniform3(uHandle, this.AmbientColor);

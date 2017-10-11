@@ -69,14 +69,13 @@ namespace Voxa.Rendering
                 projectionMatrixUniform.Matrix = Matrix4.Mult(modelview, this.projectionMatrix);
                 cameraPositionUniform.Value = this.renderCamera.GetGameObject().Transform.Position;
 
-                // Activate shader program and set uniforms
-                this.shaderProgram.Use();
-                projectionMatrixUniform.Set(this.shaderProgram);
-                cameraPositionUniform.Set(this.shaderProgram);
-                Engine.Game.CurrentScene.SetShadingUniforms();
-
                 // Render the pool list
                 foreach (var renderer in this.rendererPool) {
+                    // Activate shader program and set uniforms
+                    renderer.GetShader().Use();
+                    projectionMatrixUniform.Set(this.shaderProgram);
+                    cameraPositionUniform.Set(this.shaderProgram);
+                    Engine.Game.CurrentScene.SetShadingUniforms();
                     renderer.Render();
                 }
             }

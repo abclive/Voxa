@@ -33,6 +33,7 @@ namespace Voxa.Objects
         public void RemoveGameObject(GameObject gameObject)
         {
             this.gameObjectList.Remove(gameObject);
+            gameObject.OnDestroy();
         }
 
         public Light GetClosestLight(GameObject target)

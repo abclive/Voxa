@@ -15,6 +15,8 @@ namespace Voxa.Objects.Renderer
     {
         public StaticModel Model;
 
+        public ShaderProgram CustomShader;
+
         private Dictionary<Guid, int> glBufferIds = new Dictionary<Guid, int>();
         protected Dictionary<Guid, VertexBuffer<TexturedVertex>> vertexBuffers = new Dictionary<Guid, VertexBuffer<TexturedVertex>>();
         protected Dictionary<Guid, VertexArray<TexturedVertex>> vertexArrays = new Dictionary<Guid, VertexArray<TexturedVertex>>();
@@ -27,10 +29,20 @@ namespace Voxa.Objects.Renderer
             this.Model = model;
         }
 
+        public ModelRenderer(StaticModel model, ShaderProgram customShader)
+        {
+            this.Model = model;
+            this.CustomShader = customShader;
+        }
+
         public override void OnLoad()
         {
             base.OnLoad();
+            this.Init();
+        }
 
+        public void Init()
+        {
             foreach (Mesh mesh in this.Model.Meshes) {
                 foreach (Mesh.Primitive primitive in mesh.Primitives) {
                     this.glBufferIds.Add(primitive.GUID, GL.GenBuffer());
@@ -110,6 +122,22 @@ namespace Voxa.Objects.Renderer
                     this.vertexBuffers[primitive.GUID].AddVertex(tmpVertex);
                 }
             }
+        }
+
+        public ShaderProgram GetShader()
+        {
+            if (this.CustomShader != null) {
+                return CustomShader;
+            }
+            return Engine.RenderingPool.ShaderProgam;
+        }
+
+        public override void OnDestroy()
+        {
+            this.Model = null;
+            this.CustomShader = null;
+            Engine.RenderingPool.RemoveFromPool(this);
+            base.OnDestroy();
         }
     }
 }

@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Voxa.Utils
 {
-    static class ResourceManager
+    public static class ResourceManager
     {
         public static string GetTextResource(string resourcePath)
         {

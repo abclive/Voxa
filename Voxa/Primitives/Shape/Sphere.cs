@@ -13,7 +13,7 @@ namespace Voxa.Primitives.Shape
 {
     public class Sphere : StaticModel
     {
-        private struct Face
+        protected struct Face
         {
             public Vector3 V1;
             public Vector3 V2;
@@ -27,21 +27,40 @@ namespace Voxa.Primitives.Shape
             }
         }
 
-        private List<Vector3> points;
-        private int index;
-        private Dictionary<long, int> middlePointIndexCache;
+        protected List<Vector3> points;
+        protected int index;
+        protected Dictionary<long, int> middlePointIndexCache;
 
         public Sphere()
         {
-            this.generateVertices(1, false);
+        }
+
+        public Sphere(int recursionLevel, Texture diffuseTexture, bool perFaceLighting = false)
+        {
+            this.GenerateVertices(recursionLevel, perFaceLighting, diffuseTexture);
+        }
+
+        public Sphere(int recursionLevel, Texture diffuseTexture, Texture specularTexture, IShapeDecorator decorator, bool perFaceLighting = false)
+        {
+            this.GenerateVertices(recursionLevel, perFaceLighting, diffuseTexture, specularTexture, decorator);
+        }
+
+        public Sphere(int recursionLevel, Texture diffuseTexture, Texture specularTexture, bool perFaceLighting = false)
+        {
+            this.GenerateVertices(recursionLevel, perFaceLighting, diffuseTexture, specularTexture);
+        }
+
+        public Sphere(int recursionLevel, IShapeDecorator decorator, bool perFaceLighting = false)
+        {
+            this.GenerateVertices(recursionLevel, perFaceLighting, null, null, decorator);
         }
 
         public Sphere(int recursionLevel, bool perFaceLighting = false)
         {
-            this.generateVertices(recursionLevel, perFaceLighting);
+            this.GenerateVertices(recursionLevel, perFaceLighting);
         }
 
-        private void generateVertices(int recursionLevel, bool perFaceLighting)
+        public virtual void GenerateVertices(int recursionLevel, bool perFaceLighting, Texture diffuseTexture = null, Texture specularTexture = null, IShapeDecorator decorator = null)
         {
             this.Meshes = new Mesh[1];
             this.Materials = new Material[1];
@@ -115,46 +134,63 @@ namespace Voxa.Primitives.Shape
             }
 
             foreach (Face tri in faces) {
-                Vector2 uv1 = tri.V1.GetSphereCoord();
-                Vector2 uv2 = tri.V2.GetSphereCoord();
-                Vector2 uv3 = tri.V3.GetSphereCoord();
+                Vector3 V1 = tri.V1;
+                Vector3 V2 = tri.V2;
+                Vector3 V3 = tri.V3;
+                if (decorator != null) {
+                    decorator.ApplyFace(ref V1, ref V2, ref V3);
+                }
+
+                Vector2 uv1 = V1.GetSphereCoord();
+                Vector2 uv2 = V2.GetSphereCoord();
+                Vector2 uv3 = V3.GetSphereCoord();
                 this.fixColorStrip(ref uv1, ref uv2, ref uv3);
 
                 if (perFaceLighting) {
-                    Vector3 dir = Vector3.Cross(tri.V2 - tri.V1, tri.V3 - tri.V1);
+                    Vector3 dir = Vector3.Cross(V2 - V1, V3 - V1);
                     Vector3 normal = Vector3.Normalize(dir);
 
-                    verticesList.Add(new TexturedVertex(tri.V1, uv1, Color4.White, normal));
-                    verticesList.Add(new TexturedVertex(tri.V2, uv2, Color4.White, normal));
-                    verticesList.Add(new TexturedVertex(tri.V3, uv3, Color4.White, normal));
+                    verticesList.Add(new TexturedVertex(V1, uv1, Color4.White, normal));
+                    verticesList.Add(new TexturedVertex(V2, uv2, Color4.White, normal));
+                    verticesList.Add(new TexturedVertex(V3, uv3, Color4.White, normal));
                 } else {
-                    Vector3 normalV1 = tri.V1.Normalized();
+                    Vector3 normalV1 = V1.Normalized();
                     normalV1 = Vector3.Divide(normalV1, normalV1.Length);
-                    Vector3 normalV2 = tri.V2.Normalized();
+                    Vector3 normalV2 = V2.Normalized();
                     normalV2 = Vector3.Divide(normalV2, normalV2.Length);
-                    Vector3 normalV3 = tri.V3.Normalized();
+                    Vector3 normalV3 = V3.Normalized();
                     normalV3 = Vector3.Divide(normalV3, normalV3.Length);
 
-                    verticesList.Add(new TexturedVertex(tri.V1, uv1, Color4.White, normalV1));
-                    verticesList.Add(new TexturedVertex(tri.V2, uv2, Color4.White, normalV2));
-                    verticesList.Add(new TexturedVertex(tri.V3, uv3, Color4.White, normalV3));
+                    verticesList.Add(new TexturedVertex(V1, uv1, Color4.White, normalV1));
+                    verticesList.Add(new TexturedVertex(V2, uv2, Color4.White, normalV2));
+                    verticesList.Add(new TexturedVertex(V3, uv3, Color4.White, normalV3));
                 }
             }
 
             Mesh.Primitive shapePrimitive = new Mesh.Primitive(verticesList);
             this.Meshes[0] = new Mesh(shapePrimitive);
-            this.Materials[0] = new Material(0, Color4.Blue, Color4.White, 2);
-            this.Materials[0].AmbientColor = Color4.Red;
+            if (diffuseTexture != null) {
+                if (specularTexture != null) {
+                    this.Materials[0] = new Material(0, diffuseTexture, specularTexture, 2);
+                } else {
+                    this.Materials[0] = new Material(0, diffuseTexture, Color4.LightGoldenrodYellow, 2);
+                }
+                this.Materials[0].AmbientColor = Color4.DarkBlue;
+            } else {
+                this.Materials[0] = new Material(0, Color4.Blue, Color4.White, 2);
+                this.Materials[0].AmbientColor = Color4.Blue;
+            }
+            Logger.Info("Completed sphere generation! Generated vertices: " + verticesList.Count);
         }
 
-        private int addVertex(Vector3 point)
+        protected int addVertex(Vector3 point)
         {
             points.Add(point.Normalized());
             return index++;
         }
 
         // return index of point in the middle of p1 and p2
-        private int getMiddlePoint(Vector3 point1, Vector3 point2)
+        protected int getMiddlePoint(Vector3 point1, Vector3 point2)
         {
             long i1 = this.points.IndexOf(point1);
             long i2 = this.points.IndexOf(point2);
@@ -184,7 +220,7 @@ namespace Voxa.Primitives.Shape
             return i;
         }
 
-        private void fixColorStrip(ref Vector2 uv1, ref Vector2 uv2, ref Vector2 uv3)
+        protected void fixColorStrip(ref Vector2 uv1, ref Vector2 uv2, ref Vector2 uv3)
         {
             if ((uv1.X - uv2.X) >= 0.8f)
                 uv1.X -= 1;
@@ -199,6 +235,15 @@ namespace Voxa.Primitives.Shape
                 uv2.X -= 1;
             if ((uv3.X - uv1.X) >= 0.8f)
                 uv3.X -= 1;
+        }
+
+        public override void OnDestroy()
+        {
+            this.points = null;
+            this.middlePointIndexCache = null;
+            this.Meshes = null;
+            this.Materials = null;
+            base.OnDestroy();
         }
     }
 }

@@ -81,11 +81,18 @@ namespace Voxa.Objects
         {}
 
         public virtual void OnDestroy()
-        {}
-
-        ~GameObject()
         {
-            this.OnDestroy();
+            foreach (Component component in componentList) {
+                component.OnDestroy();
+            }
+            this.componentList = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+
+        public void Destroy()
+        {
+            Engine.Game.CurrentScene.RemoveGameObject(this);
         }
     }
 }

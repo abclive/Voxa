@@ -11,6 +11,8 @@ namespace Voxa.Logic
 {
     public class Game
     {
+        public virtual Vector4 ClearColor { get { return new Vector4(0.12f, 0.48f, 0.69f, 1.0f); } }
+
         private double updateElapsedTime = 0;
         private double renderElapsedTime = 0;
 

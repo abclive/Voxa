@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK;
 using Voxa.Rendering;
 using Voxa.Logic;
 using Voxa.Utils;
@@ -18,6 +19,7 @@ namespace Voxa
         public const int              WINDOW_HEIGHT = 400;
         public const int              RENDER_DISTANCE = 1;
         public const double           TARGET_UPDATE_RATE = 60.0;
+
         private static EngineWindow   engineWindow;
         private static RenderingPool  renderingPool;
         private static UniformManager uniformManager;

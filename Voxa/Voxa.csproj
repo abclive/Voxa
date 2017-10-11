@@ -83,6 +83,7 @@
     <Compile Include="Logic\Game.cs" />
     <Compile Include="Objects\StaticModel.cs" />
     <Compile Include="Objects\Transform.cs" />
+    <Compile Include="Primitives\Shape\IShapeDecorator.cs" />
     <Compile Include="Primitives\Shape\Plane.cs" />
     <Compile Include="Primitives\Shape\Sphere.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -117,6 +118,7 @@
     <Compile Include="Utils\GLTFParser.cs" />
     <Compile Include="Utils\Logger.cs" />
     <Compile Include="Utils\MathExtensions.cs" />
+    <Compile Include="Utils\OpenSimplexNoise.cs" />
     <Compile Include="Utils\ResourceManager.cs" />
   </ItemGroup>
   <ItemGroup>
