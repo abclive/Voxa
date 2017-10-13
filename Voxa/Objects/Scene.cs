@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics;
+using Voxa.Rendering;
 using Voxa.Rendering.Uniforms;
 using Voxa.Utils;
 
@@ -48,12 +49,12 @@ namespace Voxa.Objects
             return (lights.Count > 0) ? lights.First().Value : null;
         }
 
-        public void SetShadingUniforms()
+        public void SetShadingUniforms(ShaderProgram shader)
         {
             this.ambientLightColorUniform = new Vector3Uniform("ambientLightColor", this.SceneLight.Color);
-            this.ambientLightColorUniform.Set(Engine.RenderingPool.ShaderProgam);
+            this.ambientLightColorUniform.Set(shader);
             this.ambientLightStrengthUniform = new FloatUniform("ambientLightStrength", this.SceneLight.Strength);
-            this.ambientLightStrengthUniform.Set(Engine.RenderingPool.ShaderProgam);
+            this.ambientLightStrengthUniform.Set(shader);
         }
 
         public virtual void Load()

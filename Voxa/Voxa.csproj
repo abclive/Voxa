@@ -118,6 +118,7 @@
     <Compile Include="Utils\GLTFParser.cs" />
     <Compile Include="Utils\Logger.cs" />
     <Compile Include="Utils\MathExtensions.cs" />
+    <Compile Include="Utils\OpenGLDebugger.cs" />
     <Compile Include="Utils\OpenSimplexNoise.cs" />
     <Compile Include="Utils\ResourceManager.cs" />
   </ItemGroup>

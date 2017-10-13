@@ -86,7 +86,7 @@ namespace Voxa.Objects
                 component.OnDestroy();
             }
             this.componentList = null;
-            GC.Collect();
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
             GC.WaitForPendingFinalizers();
         }
 

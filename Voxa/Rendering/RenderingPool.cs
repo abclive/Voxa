@@ -72,10 +72,11 @@ namespace Voxa.Rendering
                 // Render the pool list
                 foreach (var renderer in this.rendererPool) {
                     // Activate shader program and set uniforms
-                    renderer.GetShader().Use();
-                    projectionMatrixUniform.Set(this.shaderProgram);
-                    cameraPositionUniform.Set(this.shaderProgram);
-                    Engine.Game.CurrentScene.SetShadingUniforms();
+                    ShaderProgram rendererShader = renderer.GetShader();
+                    rendererShader.Use();
+                    projectionMatrixUniform.Set(rendererShader);
+                    cameraPositionUniform.Set(rendererShader);
+                    Engine.Game.CurrentScene.SetShadingUniforms(rendererShader);
                     renderer.Render();
                 }
             }

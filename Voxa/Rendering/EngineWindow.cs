@@ -32,6 +32,11 @@ namespace Voxa.Rendering
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Texture2D);
             GL.Enable(EnableCap.Blend);
+            GL.Enable(EnableCap.DebugOutput);
+            GL.Enable(EnableCap.DebugOutputSynchronous);
+
+            GL.DebugMessageCallback(OpenGLDebugger.DebugCallback, (IntPtr)null);
+
             GL.DepthMask(true);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 

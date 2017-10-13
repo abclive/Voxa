@@ -48,7 +48,7 @@ namespace Voxa.Objects.Renderer
                     this.glBufferIds.Add(primitive.GUID, GL.GenBuffer());
                     this.vertexBuffers.Add(primitive.GUID, new VertexBuffer<TexturedVertex>(TexturedVertex.Size, PrimitiveType.Triangles));
                     this.vertexArrays.Add(primitive.GUID, new VertexArray<TexturedVertex>(
-                        this.vertexBuffers[primitive.GUID], Engine.RenderingPool.ShaderProgam,
+                        this.vertexBuffers[primitive.GUID], this.GetShader(),
                         new VertexAttribute("vPosition", 3, VertexAttribPointerType.Float, TexturedVertex.Size, 0),
                         new VertexAttribute("vColor", 4, VertexAttribPointerType.Float, TexturedVertex.Size, 12),
                         new VertexAttribute("vTexCoord", 2, VertexAttribPointerType.Float, TexturedVertex.Size, 28),
@@ -87,7 +87,7 @@ namespace Voxa.Objects.Renderer
                     this.vertexBuffers[primitive.GUID].BufferData();
 
                     // Bind primitive Material
-                    Model.Materials[primitive.MaterialModelId].Bind(Engine.RenderingPool.ShaderProgam);
+                    Model.Materials[primitive.MaterialModelId].Bind(this.GetShader());
 
                     if (primitive.Indices.Count == 0) {
                         this.vertexBuffers[primitive.GUID].Draw();

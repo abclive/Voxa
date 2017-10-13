@@ -18,41 +18,46 @@ namespace Voxa.Rendering.Uniforms
         public Vector3 SpecularColor;
         public Vector3 AmbientColor;
         public float Shininess;
+        public float Transparency;
 
-        public MaterialUniform(string name, Texture diffuseMap, Texture specularMap, float shininess, Color4 ambientColor)
+        public MaterialUniform(string name, Texture diffuseMap, Texture specularMap, float shininess, Color4 ambientColor, float transparency)
         {
             this.name = name;
             this.DiffuseMap = diffuseMap;
             this.SpecularMap = specularMap;
             this.Shininess = shininess;
             this.AmbientColor = new Vector3(ambientColor.R, ambientColor.G, ambientColor.B);
+            this.Transparency = transparency;
         }
 
-        public MaterialUniform(string name, Color4 diffuseColor, Texture specularMap, float shininess, Color4 ambientColor)
+        public MaterialUniform(string name, Color4 diffuseColor, Texture specularMap, float shininess, Color4 ambientColor, float transparency)
         {
             this.name = name;
             this.DiffuseColor = new Vector3(diffuseColor.R, diffuseColor.G, diffuseColor.B);
             this.SpecularMap = specularMap;
             this.Shininess = shininess;
             this.AmbientColor = new Vector3(ambientColor.R, ambientColor.G, ambientColor.B);
+            this.Transparency = transparency;
         }
 
-        public MaterialUniform(string name, Texture diffuseMap, Color4 specularColor, float shininess, Color4 ambientColor)
+        public MaterialUniform(string name, Texture diffuseMap, Color4 specularColor, float shininess, Color4 ambientColor, float transparency)
         {
             this.name = name;
             this.DiffuseMap = diffuseMap;
             this.SpecularColor = new Vector3(specularColor.R, specularColor.G, specularColor.B);
             this.Shininess = shininess;
             this.AmbientColor = new Vector3(ambientColor.R, ambientColor.G, ambientColor.B);
+            this.Transparency = transparency;
         }
 
-        public MaterialUniform(string name, Color4 diffuseColor, Color4 specularColor, float shininess, Color4 ambientColor)
+        public MaterialUniform(string name, Color4 diffuseColor, Color4 specularColor, float shininess, Color4 ambientColor, float transparency)
         {
             this.name = name;
             this.DiffuseColor = new Vector3(diffuseColor.R, diffuseColor.G, diffuseColor.B);
             this.SpecularColor = new Vector3(specularColor.R, specularColor.G, specularColor.B);
             this.Shininess = shininess;
             this.AmbientColor = new Vector3(ambientColor.R, ambientColor.G, ambientColor.B);
+            this.Transparency = transparency;
         }
 
         public MaterialUniform(string name)
@@ -87,6 +92,8 @@ namespace Voxa.Rendering.Uniforms
             GL.Uniform3(uHandle, this.SpecularColor);
             uHandle = program.GetUniformLocation(this.name + ".shininess");
             GL.Uniform1(uHandle, this.Shininess);
+            uHandle = program.GetUniformLocation(this.name + ".transparency");
+            GL.Uniform1(uHandle, this.Transparency);
         }
 
         public string GetName()

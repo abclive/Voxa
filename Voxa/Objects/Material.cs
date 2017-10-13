@@ -21,12 +21,13 @@ namespace Voxa.Objects
         public Texture SpecularMap;
         public Color4  SpecularColor;
         public float   Shininess;
+        public float   Transparency;
         public bool IsLoaded { get { return isLoaded; } }
 
         private bool isLoaded = false;
         private MaterialUniform uniform;
 
-        public Material(int modelId, Texture diffuseMap, Texture specularMap, float shininess)
+        public Material(int modelId, Texture diffuseMap, Texture specularMap, float shininess, float transparency = 1)
         {
             this.ModelId = modelId;
             this.DiffuseMap = diffuseMap;
@@ -34,18 +35,20 @@ namespace Voxa.Objects
             this.SpecularMap.Unit = TextureUnit.Texture1;
             this.Shininess = shininess;
             this.AmbientColor = Color4.White;
+            this.Transparency = transparency;
         }
 
-        public Material(int modelId, Texture diffuseMap, Color4 specularColor, float shininess)
+        public Material(int modelId, Texture diffuseMap, Color4 specularColor, float shininess, float transparency = 1)
         {
             this.ModelId = modelId;
             this.DiffuseMap = diffuseMap;
             this.SpecularColor = specularColor;
             this.Shininess = shininess;
             this.AmbientColor = Color4.White;
+            this.Transparency = transparency;
         }
 
-        public Material(int modelId, Color4 diffuseColor, Texture specularMap, float shininess)
+        public Material(int modelId, Color4 diffuseColor, Texture specularMap, float shininess, float transparency = 1)
         {
             this.ModelId = modelId;
             this.DiffuseColor = diffuseColor;
@@ -53,15 +56,17 @@ namespace Voxa.Objects
             this.SpecularMap.Unit = TextureUnit.Texture1;
             this.Shininess = shininess;
             this.AmbientColor = Color4.White;
+            this.Transparency = transparency;
         }
 
-        public Material(int modelId, Color4 diffuseColor, Color4 specularColor, float shininess)
+        public Material(int modelId, Color4 diffuseColor, Color4 specularColor, float shininess, float transparency = 1)
         {
             this.ModelId = modelId;
             this.DiffuseColor = diffuseColor;
             this.SpecularColor = specularColor;
             this.Shininess = shininess;
             this.AmbientColor = Color4.White;
+            this.Transparency = transparency;
         }
 
         public Material(int modelId)
@@ -84,15 +89,15 @@ namespace Voxa.Objects
         {
             if (this.DiffuseMap != null) {
                 if (this.SpecularMap != null) {
-                    this.uniform = new MaterialUniform("material", this.DiffuseMap, this.SpecularMap, this.Shininess, this.AmbientColor);
+                    this.uniform = new MaterialUniform("material", this.DiffuseMap, this.SpecularMap, this.Shininess, this.AmbientColor, this.Transparency);
                 } else {
-                    this.uniform = new MaterialUniform("material", this.DiffuseMap, this.SpecularColor, this.Shininess, this.AmbientColor);
+                    this.uniform = new MaterialUniform("material", this.DiffuseMap, this.SpecularColor, this.Shininess, this.AmbientColor, this.Transparency);
                 }
             } else {
                 if (this.SpecularMap != null) {
-                    this.uniform = new MaterialUniform("material", this.DiffuseColor, this.SpecularMap, this.Shininess, this.AmbientColor);
+                    this.uniform = new MaterialUniform("material", this.DiffuseColor, this.SpecularMap, this.Shininess, this.AmbientColor, this.Transparency);
                 } else {
-                    this.uniform = new MaterialUniform("material", this.DiffuseColor, this.SpecularColor, this.Shininess, this.AmbientColor);
+                    this.uniform = new MaterialUniform("material", this.DiffuseColor, this.SpecularColor, this.Shininess, this.AmbientColor, this.Transparency);
                 }
             }
             this.uniform.Set(program);
