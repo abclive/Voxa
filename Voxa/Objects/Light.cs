@@ -40,7 +40,7 @@ namespace Voxa.Objects
             LightUniform currentLightUniform = Engine.UniformManager.GetUniform<LightUniform>("light");
             currentLightUniform.Color = new Vector3(this.Color.R, this.Color.G, this.Color.B);
             currentLightUniform.Position = this.gameObject.Transform.Position;
-            currentLightUniform.Set(Engine.RenderingPool.ShaderProgam);
+            currentLightUniform.Set(Engine.RenderingPool.PhongShaderProgram);
         }
     }
 }

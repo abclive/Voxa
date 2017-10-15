@@ -76,11 +76,14 @@
     <Compile Include="Objects\Light.cs" />
     <Compile Include="Objects\Material.cs" />
     <Compile Include="Objects\Mesh.cs" />
+    <Compile Include="Objects\OrthographicCamera.cs" />
     <Compile Include="Objects\PointLight.cs" />
     <Compile Include="Objects\Renderer\IRenderer.cs" />
     <Compile Include="Objects\Renderer\ModelRenderer.cs" />
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Logic\Game.cs" />
+    <Compile Include="Objects\Renderer\SpriteRenderer.cs" />
+    <Compile Include="Objects\Sprite.cs" />
     <Compile Include="Objects\StaticModel.cs" />
     <Compile Include="Objects\Transform.cs" />
     <Compile Include="Primitives\Shape\IShapeDecorator.cs" />
@@ -99,6 +102,7 @@
     <Compile Include="Rendering\Shader.cs" />
     <Compile Include="Rendering\ShaderProgram.cs" />
     <Compile Include="Rendering\Texture.cs" />
+    <Compile Include="Rendering\SpriteVertex.cs" />
     <Compile Include="Rendering\TexturedVertex.cs" />
     <Compile Include="Rendering\UniformManager.cs" />
     <Compile Include="Rendering\Uniforms\FloatUniform.cs" />
@@ -124,6 +128,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EmbeddedResource Include="Assets\Shaders\SpriteFragmentShader.frag" />
+    <EmbeddedResource Include="Assets\Shaders\SpriteShader.vert" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Assets\Shaders\BasicFragmentShader.frag" />

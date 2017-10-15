@@ -11,5 +11,6 @@ namespace Voxa.Objects.Renderer
     {
         void Render();
         ShaderProgram GetShader();
+        int GetPriority();
     }
 }

@@ -13,9 +13,9 @@ namespace Voxa.Objects.Renderer
 {
     public class ModelRenderer : Component, IRenderer
     {
-        public StaticModel Model;
-
+        public StaticModel   Model;
         public ShaderProgram CustomShader;
+        public int           Priority;
 
         private Dictionary<Guid, int> glBufferIds = new Dictionary<Guid, int>();
         protected Dictionary<Guid, VertexBuffer<TexturedVertex>> vertexBuffers = new Dictionary<Guid, VertexBuffer<TexturedVertex>>();
@@ -27,12 +27,26 @@ namespace Voxa.Objects.Renderer
         public ModelRenderer(StaticModel model)
         {
             this.Model = model;
+            this.Priority = 0;
+        }
+
+        public ModelRenderer(StaticModel model, int priority)
+        {
+            this.Model = model;
+            this.Priority = priority;
         }
 
         public ModelRenderer(StaticModel model, ShaderProgram customShader)
         {
             this.Model = model;
             this.CustomShader = customShader;
+        }
+
+        public ModelRenderer(StaticModel model, ShaderProgram customShader, int priority)
+        {
+            this.Model = model;
+            this.CustomShader = customShader;
+            this.Priority = priority;
         }
 
         public override void OnLoad()
@@ -60,7 +74,7 @@ namespace Voxa.Objects.Renderer
             }
             this.UpdateAllVertexBuffers();
 
-            Engine.RenderingPool.AddToPool(this);
+            Engine.RenderingPool.AddToPool(this, this.Priority);
         }
 
         public void Render()
@@ -76,7 +90,7 @@ namespace Voxa.Objects.Renderer
                 }
                 Matrix3Uniform normalMatrixUniform = Engine.UniformManager.GetUniform<Matrix3Uniform>("normalMatrix");
                 normalMatrixUniform.Matrix = Matrix3.Transpose(new Matrix3(transformMatrix.Inverted()));
-                normalMatrixUniform.Set(Engine.RenderingPool.ShaderProgam);
+                normalMatrixUniform.Set(Engine.RenderingPool.PhongShaderProgram);
 
                 foreach (Mesh.Primitive primitive in mesh.Primitives) {
                     // Bind vertex buffer and array objects
@@ -93,7 +107,7 @@ namespace Voxa.Objects.Renderer
                         this.vertexBuffers[primitive.GUID].Draw();
                     } else {
                         GL.BindBuffer(BufferTarget.ElementArrayBuffer, this.glBufferIds[primitive.GUID]);
-                        GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(primitive.Indices.Count * sizeof(ushort)), primitive.Indices.ToArray(), BufferUsageHint.StaticDraw);
+                        GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(primitive.Indices.Count * sizeof(ushort)), primitive.Indices.ToArray(), BufferUsageHint.DynamicDraw);
                         GL.DrawElements(PrimitiveType.Triangles, primitive.Indices.Count, DrawElementsType.UnsignedShort, (IntPtr)0);
                     }
                 }
@@ -129,7 +143,12 @@ namespace Voxa.Objects.Renderer
             if (this.CustomShader != null) {
                 return CustomShader;
             }
-            return Engine.RenderingPool.ShaderProgam;
+            return Engine.RenderingPool.PhongShaderProgram;
+        }
+
+        public int GetPriority()
+        {
+            return this.Priority;
         }
 
         public override void OnDestroy()

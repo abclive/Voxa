@@ -15,12 +15,14 @@ namespace Voxa.Rendering
     public sealed class RenderingPool
     {
         private Matrix4         projectionMatrix;
-        private ShaderProgram   shaderProgram;
+        private ShaderProgram   phongShaderProgram;
+        private ShaderProgram   spriteShaderProgram;
         private List<IRenderer> rendererPool;
         private bool            loaded = false;
         private Camera          renderCamera;
         
-        public ShaderProgram    ShaderProgam { get { return shaderProgram; } }
+        public ShaderProgram    PhongShaderProgram { get { return this.phongShaderProgram; } }
+        public ShaderProgram    SpriteShaderProgram { get { return this.spriteShaderProgram; } }
 
         public RenderingPool()
         {
@@ -28,12 +30,18 @@ namespace Voxa.Rendering
 
         public void Load()
         {
-            string vertexShaderCode = ResourceManager.GetTextResource("Voxa.Assets.Shaders.BasicShader.vert");
-            string fragmentShaderCode = ResourceManager.GetTextResource("Voxa.Assets.Shaders.BasicFragmentShader.frag");
-            Shader vertexShader = new Shader(ShaderType.VertexShader, vertexShaderCode);
-            Shader fragmentShader = new Shader(ShaderType.FragmentShader, fragmentShaderCode);
+            string phongVertexShaderCode = ResourceManager.GetTextResource("Voxa.Assets.Shaders.BasicShader.vert");
+            string phongFragmentShaderCode = ResourceManager.GetTextResource("Voxa.Assets.Shaders.BasicFragmentShader.frag");
+            Shader phongVertexShader = new Shader(ShaderType.VertexShader, phongVertexShaderCode);
+            Shader phongFragmentShader = new Shader(ShaderType.FragmentShader, phongFragmentShaderCode);
+            this.phongShaderProgram = new ShaderProgram(phongVertexShader, phongFragmentShader);
 
-            this.shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
+            string spriteVertexShaderCode = ResourceManager.GetTextResource("Voxa.Assets.Shaders.SpriteShader.vert");
+            string spriteFragmentShaderCode = ResourceManager.GetTextResource("Voxa.Assets.Shaders.SpriteFragmentShader.frag");
+            Shader spriteVertexShader = new Shader(ShaderType.VertexShader, spriteVertexShaderCode);
+            Shader spriteFragmentShader = new Shader(ShaderType.FragmentShader, spriteFragmentShaderCode);
+            this.spriteShaderProgram = new ShaderProgram(spriteVertexShader, spriteFragmentShader);
+
             this.rendererPool = new List<IRenderer>();
 
             this.projectionMatrix = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, Engine.EngineWindow.Width / (float)Engine.EngineWindow.Height, 0.1f, 100.0f);
@@ -51,6 +59,27 @@ namespace Voxa.Rendering
         public void AddToPool(IRenderer renderer)
         {
             this.rendererPool.Add(renderer);
+            this.SortRendererList();
+        }
+
+        public void SortRendererList()
+        {
+            this.rendererPool.Sort((a, b) => {
+                if (a.GetPriority() > b.GetPriority()) return 1;
+                return -1;
+            });
+        }
+
+        public void AddToPool(IRenderer renderer, int priority)
+        {
+            int index = 0;
+            foreach (IRenderer lRenderer in this.rendererPool) {
+                if (lRenderer.GetPriority() > priority) {
+                    break;
+                }
+                index++;
+            }
+            this.rendererPool.Insert(index, renderer);
         }
 
         public void RemoveFromPool(IRenderer renderer)

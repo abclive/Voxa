@@ -16,7 +16,9 @@ namespace Voxa.Rendering
 
         public void AddUniform(IUniform uniform)
         {
-            this.uniformList.Add(uniform.GetName(), uniform);
+            if (!this.uniformList.TryGetValue(uniform.GetName(), out IUniform testUniform)) {
+                this.uniformList.Add(uniform.GetName(), uniform);
+            }
         }
 
         public T GetUniform<T>(string name) where T : IUniform

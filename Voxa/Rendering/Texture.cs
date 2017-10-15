@@ -33,6 +33,9 @@ namespace Voxa.Rendering
         public RepeatMode Repeat = RepeatMode.REPEAT;
         public TextureUnit Unit = TextureUnit.Texture0;
 
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+
         private Bitmap textureBitmap;
         private BitmapData textureData;
         private int textureId;
@@ -71,6 +74,9 @@ namespace Voxa.Rendering
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, this.textureBitmap.Width, this.textureBitmap.Height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, this.textureData.Scan0);
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
+
+            this.Width = this.textureBitmap.Width;
+            this.Height = this.textureBitmap.Height;
 
             this.textureBitmap.UnlockBits(this.textureData);
             this.textureBitmap.Dispose();
