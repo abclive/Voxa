@@ -1,4 +1,4 @@
-﻿#version 150
+﻿#version 330 core
 
 struct Material {
 	sampler2D diffuseMap;

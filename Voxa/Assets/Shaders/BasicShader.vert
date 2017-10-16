@@ -1,4 +1,4 @@
-﻿#version 130
+﻿#version 330 core
 
 // a projection transformation to apply to the vertex' position
 uniform mat4 projectionMatrix;

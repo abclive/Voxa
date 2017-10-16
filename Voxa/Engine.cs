@@ -49,7 +49,7 @@ namespace Voxa
             engineWindow = new EngineWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
             renderingPool = new RenderingPool();
             uniformManager = new UniformManager();
-            engineWindow.Run(TARGET_UPDATE_RATE, 0.0);
+            engineWindow.Run(TARGET_UPDATE_RATE, 0);
         }
     }
 }

@@ -88,7 +88,7 @@ namespace Voxa.Utils
             switch (severity) {
                 case DebugSeverity.DebugSeverityHigh: {
                     Logger.Error(errorString.ToString());
-                    if (type == DebugType.DebugTypeError) throw new InvalidOperationException("ARB_debug_output found an error.");
+                    //if (type == DebugType.DebugTypeError) throw new InvalidOperationException("ARB_debug_output found an error.");
                     break;
                 }
                 case DebugSeverity.DebugSeverityMedium: {
