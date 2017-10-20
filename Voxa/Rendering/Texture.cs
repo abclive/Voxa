@@ -45,6 +45,11 @@ namespace Voxa.Rendering
             this.ResourcePath = resourcePath;
         }
 
+        public Texture(Bitmap textureBitmap)
+        {
+            this.textureBitmap = textureBitmap;
+        }
+
         public void Bind()
         {
             GL.ActiveTexture(this.Unit);
@@ -53,7 +58,8 @@ namespace Voxa.Rendering
 
         public void Load()
         {
-            this.textureBitmap = new Bitmap(ResourceManager.GetFileStream(this.ResourcePath));
+            if (this.textureBitmap == null)
+                this.textureBitmap = new Bitmap(ResourceManager.GetFileStream(this.ResourcePath));
 
             if (this.FlipY)
                 this.textureBitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);

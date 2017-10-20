@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
+using System.Threading;
 using Voxa.Rendering;
 using Voxa.Logic;
 using Voxa.Utils;
@@ -39,7 +40,6 @@ namespace Voxa
         {
         }
 
-        [STAThread]
         public static void Start(Game gameInstance)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -49,6 +49,7 @@ namespace Voxa
             engineWindow = new EngineWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
             renderingPool = new RenderingPool();
             uniformManager = new UniformManager();
+
             engineWindow.Run(TARGET_UPDATE_RATE, 0);
         }
     }

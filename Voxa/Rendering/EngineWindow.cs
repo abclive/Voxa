@@ -37,8 +37,6 @@ namespace Voxa.Rendering
 
             GL.DebugMessageCallback(OpenGLDebugger.DebugCallback, (IntPtr)null);
 
-            GL.Enable(EnableCap.CullFace);
-            GL.CullFace(CullFaceMode.Back);
             GL.DepthMask(true);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 

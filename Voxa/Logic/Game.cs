@@ -41,7 +41,6 @@ namespace Voxa.Logic
                 this.CurrentScene.UpdateAll();
                 this.debugGameInfo();
             }
-            Logger.UpdateStickyDisplay();
         }
 
         public virtual void Render(FrameEventArgs e)
