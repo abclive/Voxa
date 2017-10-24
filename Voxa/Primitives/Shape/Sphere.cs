@@ -37,30 +37,35 @@ namespace Voxa.Primitives.Shape
 
         public Sphere(int recursionLevel, Texture diffuseTexture, bool perFaceLighting = false)
         {
-            this.GenerateVertices(recursionLevel, perFaceLighting, diffuseTexture);
+            this.GenerateVertices(recursionLevel, perFaceLighting, 1, diffuseTexture);
         }
 
         public Sphere(int recursionLevel, Texture diffuseTexture, Texture specularTexture, IShapeDecorator decorator, bool perFaceLighting = false)
         {
-            this.GenerateVertices(recursionLevel, perFaceLighting, diffuseTexture, specularTexture, decorator);
+            this.GenerateVertices(recursionLevel, perFaceLighting, 1, diffuseTexture, specularTexture, decorator);
         }
 
         public Sphere(int recursionLevel, Texture diffuseTexture, Texture specularTexture, bool perFaceLighting = false)
         {
-            this.GenerateVertices(recursionLevel, perFaceLighting, diffuseTexture, specularTexture);
+            this.GenerateVertices(recursionLevel, perFaceLighting, 1, diffuseTexture, specularTexture);
         }
 
         public Sphere(int recursionLevel, IShapeDecorator decorator, bool perFaceLighting = false)
         {
-            this.GenerateVertices(recursionLevel, perFaceLighting, null, null, decorator);
+            this.GenerateVertices(recursionLevel, perFaceLighting, 1, null, null, decorator);
+        }
+
+        public Sphere(int recursionLevel, float size, bool perFaceLighting = false)
+        {
+            this.GenerateVertices(recursionLevel, perFaceLighting, size);
         }
 
         public Sphere(int recursionLevel, bool perFaceLighting = false)
         {
-            this.GenerateVertices(recursionLevel, perFaceLighting);
+            this.GenerateVertices(recursionLevel, perFaceLighting, 1);
         }
 
-        public virtual void GenerateVertices(int recursionLevel, bool perFaceLighting, Texture diffuseTexture = null, Texture specularTexture = null, IShapeDecorator decorator = null)
+        public virtual void GenerateVertices(int recursionLevel, bool perFaceLighting, float size, Texture diffuseTexture = null, Texture specularTexture = null, IShapeDecorator decorator = null)
         {
             this.Meshes = new Mesh[1];
             this.Materials = new Material[1];
@@ -137,6 +142,11 @@ namespace Voxa.Primitives.Shape
                 Vector3 V1 = tri.V1;
                 Vector3 V2 = tri.V2;
                 Vector3 V3 = tri.V3;
+
+                V1 = Vector3.Multiply(V1, size);
+                V2 = Vector3.Multiply(V2, size);
+                V3 = Vector3.Multiply(V3, size);
+
                 if (decorator != null) {
                     decorator.ApplyFace(ref V1, ref V2, ref V3);
                 }

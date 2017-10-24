@@ -7,7 +7,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Voxa.Rendering.Uniforms
 {
-    sealed class Sampler2DUniform : IUniform
+    public sealed class Sampler2DUniform : IUniform
     {
         private readonly string name;
         public int SamplerId;

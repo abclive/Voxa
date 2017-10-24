@@ -100,6 +100,15 @@ namespace Voxa.Utils
             isDirty = true;
         }
 
+        public static void Success(string message)
+        {
+            if (logs.Count >= MAX_LOGS) {
+                logs.RemoveAt(0);
+            }
+            logs.Add(new LoggerMessage(message, ConsoleColor.Green));
+            isDirty = true;
+        }
+
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Warning(string message)
         {

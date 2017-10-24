@@ -1,6 +1,6 @@
 ﻿#version 330 core
 
-// a projection transformation to apply to the vertex' position
+uniform mat4 modelMatrix;
 uniform mat4 projectionMatrix;
 uniform mat3 normalMatrix;
 
@@ -11,14 +11,13 @@ in vec2 vTexCoord;
 in vec3 vNormal;
 
 out vec3 fPosition;
-out vec4 fColor; // must match name in fragment shader
+out vec4 fColor;
 out vec2 fTexCoord;
 out vec3 fNormal;
 
 void main()
 {
-    // gl_Position is a special variable of OpenGL that must be set
-    gl_Position = projectionMatrix * vec4(vPosition, 1.0);
+    gl_Position = projectionMatrix * modelMatrix * vec4(vPosition, 1.0);
 	fPosition = vPosition;
     fColor = vColor;
 	fTexCoord = vTexCoord;

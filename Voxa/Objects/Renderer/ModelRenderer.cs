@@ -70,9 +70,12 @@ namespace Voxa.Objects.Renderer
                     ));
                     if (!Model.Materials[primitive.MaterialModelId].IsLoaded)
                         Model.Materials[primitive.MaterialModelId].Load();
+
+                    foreach (TexturedVertex vertex in primitive.Vertices) {
+                        this.vertexBuffers[primitive.GUID].AddVertex(vertex);
+                    }
                 }
             }
-            this.UpdateAllVertexBuffers();
 
             Engine.RenderingPool.AddToPool(this, this.Priority);
         }
@@ -112,6 +115,8 @@ namespace Voxa.Objects.Renderer
                     }
                 }
             }
+
+            this.UpdateAllVertexBuffers();
         }
 
         public void UpdateAllVertexBuffers()
@@ -127,15 +132,9 @@ namespace Voxa.Objects.Renderer
             if (mesh.LocalMatrix != Matrix4.Identity) {
                 transformMatrix = mesh.LocalMatrix * transformMatrix;
             }
-            foreach (Mesh.Primitive primitive in mesh.Primitives) {
-                this.vertexBuffers[primitive.GUID].Clear();
-                foreach (TexturedVertex vertex in primitive.Vertices) {
-                    TexturedVertex tmpVertex = vertex;
-                    Vector4 updatedPos = new Vector4(tmpVertex.Position.X, tmpVertex.Position.Y, tmpVertex.Position.Z, 1) * transformMatrix;
-                    tmpVertex.Position = new Vector3(updatedPos.X, updatedPos.Y, updatedPos.Z);
-                    this.vertexBuffers[primitive.GUID].AddVertex(tmpVertex);
-                }
-            }
+            Matrix4Uniform modelMatrix = Engine.UniformManager.GetUniform<Matrix4Uniform>("modelMatrix");
+            modelMatrix.Matrix = transformMatrix;
+            modelMatrix.Set(this.GetShader());
         }
 
         public ShaderProgram GetShader()

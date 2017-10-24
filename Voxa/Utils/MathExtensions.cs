@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 using OpenTK;
 
 namespace Voxa.Utils
@@ -30,6 +31,14 @@ namespace Voxa.Utils
         public static float Range(this Random rand, float min, float max)
         {
             return (float)(min + rand.NextDouble() * (max - min));
+        }
+
+        public static Color Blend(this Color origin, Color mixColor, double amount = 0.5)
+        {
+            byte r = (byte)((origin.R * amount) + mixColor.R * (1 - amount));
+            byte g = (byte)((origin.G * amount) + mixColor.G * (1 - amount));
+            byte b = (byte)((origin.B * amount) + mixColor.B * (1 - amount));
+            return Color.FromArgb(r, g, b);
         }
     }
 }

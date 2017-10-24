@@ -11,6 +11,11 @@ namespace Voxa.Logic
 {
     public class Game
     {
+        public virtual int WINDOW_WIDTH { get { return 640; } }
+        public virtual int WINDOW_HEIGHT { get { return 400; } }
+        public virtual int RENDER_DISTANCE { get { return 1; } }
+        public virtual double TARGET_UPDATE_RATE { get { return 60; } }
+
         public virtual Vector4 ClearColor { get { return new Vector4(0.12f, 0.48f, 0.69f, 1.0f); } }
 
         private double updateElapsedTime = 0;

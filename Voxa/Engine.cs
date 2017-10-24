@@ -16,11 +16,6 @@ namespace Voxa
         public const int              VERSION_MAJOR = 0;
         public const int              VERSION_MINOR = 1;
 
-        public const int              WINDOW_WIDTH = 640;
-        public const int              WINDOW_HEIGHT = 400;
-        public const int              RENDER_DISTANCE = 1;
-        public const double           TARGET_UPDATE_RATE = 60.0;
-
         private static EngineWindow   engineWindow;
         private static RenderingPool  renderingPool;
         private static UniformManager uniformManager;
@@ -46,11 +41,11 @@ namespace Voxa
             Logger.AddStickyInfo("voxaInfo", new LoggerMessage("V O X A - Lite 3D Engine v" + VERSION_MAJOR + "." + VERSION_MINOR, ConsoleColor.Cyan));
             Logger.Info("Starting Voxa Engine v" + VERSION_MAJOR + "." + VERSION_MINOR);
             game = gameInstance;
-            engineWindow = new EngineWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
+            engineWindow = new EngineWindow(gameInstance.WINDOW_WIDTH, gameInstance.WINDOW_HEIGHT);
             renderingPool = new RenderingPool();
             uniformManager = new UniformManager();
 
-            engineWindow.Run(TARGET_UPDATE_RATE, 0);
+            engineWindow.Run(gameInstance.TARGET_UPDATE_RATE, 0);
         }
     }
 }
