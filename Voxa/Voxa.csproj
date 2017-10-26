@@ -125,6 +125,7 @@
     <Compile Include="Utils\OpenGLDebugger.cs" />
     <Compile Include="Utils\OpenSimplexNoise.cs" />
     <Compile Include="Utils\ResourceManager.cs" />
+    <Compile Include="Utils\TaskQueue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

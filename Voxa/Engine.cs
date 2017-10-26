@@ -20,6 +20,7 @@ namespace Voxa
         private static RenderingPool  renderingPool;
         private static UniformManager uniformManager;
         private static Game           game;
+        private static TaskQueue      taskQueue;
 
         public static Texture         WhitePixelTexture;
 
@@ -30,6 +31,8 @@ namespace Voxa
         public static UniformManager  UniformManager { get { return uniformManager; } }
 
         public static Game            Game { get { return game; } }
+
+        public static TaskQueue       TaskQueue { get { return taskQueue; } }
 
         public Engine()
         {
@@ -44,6 +47,7 @@ namespace Voxa
             engineWindow = new EngineWindow(gameInstance.WINDOW_WIDTH, gameInstance.WINDOW_HEIGHT);
             renderingPool = new RenderingPool();
             uniformManager = new UniformManager();
+            taskQueue = new TaskQueue();
 
             engineWindow.Run(gameInstance.TARGET_UPDATE_RATE, 0);
         }

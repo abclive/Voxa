@@ -100,7 +100,7 @@ namespace Voxa.Rendering
                 cameraPositionUniform.Value = this.renderCamera.GetGameObject().Transform.Position;
 
                 // Render the pool list
-                foreach (var renderer in this.rendererPool) {
+                foreach (var renderer in this.rendererPool.ToList()) {
                     // Activate shader program and set uniforms
                     ShaderProgram rendererShader = renderer.GetShader();
                     rendererShader.Use();

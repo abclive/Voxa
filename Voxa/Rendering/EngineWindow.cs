@@ -64,6 +64,7 @@ namespace Voxa.Rendering
         {
             base.OnUpdateFrame(e);
 
+            Engine.TaskQueue.CallPendingCallbacks();
             Engine.Game.Update(e);
             if (this.Focused) {
                 this.resetCursor();
