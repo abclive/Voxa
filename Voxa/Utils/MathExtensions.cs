@@ -19,6 +19,14 @@ namespace Voxa.Utils
             return (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
         }
 
+        public static float Distance(this Vector2 vec, Vector2 target)
+        {
+            float deltaX = target.X - vec.X;
+            float deltaY = target.Y - vec.Y;
+
+            return (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+        }
+
         public static Vector2 GetSphereCoord(this Vector3 vec)
         {
             var len = vec.Length;
