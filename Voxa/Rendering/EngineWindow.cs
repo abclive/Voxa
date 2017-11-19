@@ -18,7 +18,7 @@ namespace Voxa.Rendering
 
         public EngineWindow(int windowWidth, int windowHeight) : base(windowWidth, windowHeight, new GraphicsMode(32, 1, 0, 4), "Voxa", GameWindowFlags.Default, DisplayDevice.Default, 3, 0, GraphicsContextFlags.ForwardCompatible)
         {
-            VSync = VSyncMode.Off;
+            this.VSync = VSyncMode.Off;
             Logger.Info("OpenGL version: " + GL.GetString(StringName.Version));
         }
 
@@ -44,7 +44,7 @@ namespace Voxa.Rendering
             Engine.WhitePixelTexture.Filtering = Texture.FilteringMode.NEAREST_NEIGHBOR;
             Engine.WhitePixelTexture.Load();
             Engine.Game.Start();
-            CursorVisible = false;
+            this.CursorVisible = false;
         }
 
         protected override void OnResize(EventArgs e)
@@ -57,7 +57,7 @@ namespace Voxa.Rendering
         void resetCursor()
         {
             OpenTK.Input.Mouse.SetPosition(Bounds.Left + Bounds.Width / 2, Bounds.Top + Bounds.Height / 2);
-            LastMousePos = new Vector2(OpenTK.Input.Mouse.GetState().X, OpenTK.Input.Mouse.GetState().Y);
+            this.LastMousePos = new Vector2(OpenTK.Input.Mouse.GetState().X, OpenTK.Input.Mouse.GetState().Y);
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)

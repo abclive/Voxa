@@ -11,34 +11,45 @@ namespace Voxa.Objects
     public class Camera : Component
     {
         public Vector3 Orientation = new Vector3((float)Math.PI, 0f, 0f);
-        public float   MoveSpeed = 0.2f;
-        public float   MouseSensitivity = 0.005f;
+        public float MoveSpeed = 0.2f;
+        public float MouseSensitivity = 0.005f;
+
+        public Vector3 UpVector { get { return Vector3.Cross(Vector3.Cross(this.ForwardVector, new Vector3(0, 1, 0)), this.ForwardVector).Normalized(); } }
+        public Vector3 RightVector { get { return new Vector3(-this.ForwardVector.Z, 0, this.ForwardVector.X).Normalized(); } }
+        public Vector3 ForwardVector { get; private set; }
+
+        public Vector3 LookAt;
+        private Vector3 lookAt;
 
         public Camera()
         {
-            
+        }
+
+        public override void OnUpdate()
+        {
+            if (this.LookAt == Vector3.Zero) {
+                this.lookAt = new Vector3();
+
+                this.lookAt.X = (float)(Math.Sin((float)Orientation.X) * Math.Cos((float)Orientation.Y));
+                this.lookAt.Y = (float)Math.Sin((float)Orientation.Y);
+                this.lookAt.Z = (float)(Math.Cos((float)Orientation.X) * Math.Cos((float)Orientation.Y));
+            } else if (this.lookAt != this.LookAt) {
+                this.lookAt = LookAt;
+            }
+            this.ForwardVector = -(this.gameObject.Transform.Position - this.lookAt).Normalized();
         }
 
         public Matrix4 GetViewMatrix()
         {
-            Vector3 lookAt = new Vector3();
-
-            lookAt.X = (float)(Math.Sin((float)Orientation.X) * Math.Cos((float)Orientation.Y));
-            lookAt.Y = (float)Math.Sin((float)Orientation.Y);
-            lookAt.Z = (float)(Math.Cos((float)Orientation.X) * Math.Cos((float)Orientation.Y));
-
-            return Matrix4.LookAt(this.gameObject.Transform.Position, this.gameObject.Transform.Position + lookAt, Vector3.UnitY);
+            return Matrix4.LookAt(this.gameObject.Transform.Position, this.gameObject.Transform.Position + this.lookAt, Vector3.UnitY);
         }
 
         public void Move(float x, float y, float z)
         {
             Vector3 offset = new Vector3();
 
-            Vector3 forward = new Vector3((float)Math.Sin((float)Orientation.X), 0, (float)Math.Cos((float)Orientation.X));
-            Vector3 right = new Vector3(-forward.Z, 0, forward.X);
-
-            offset += x * right;
-            offset += y * forward;
+            offset += x * this.RightVector;
+            offset += y * this.ForwardVector;
             offset.Y += z;
 
             offset.NormalizeFast();

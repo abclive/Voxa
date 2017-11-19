@@ -48,5 +48,19 @@ namespace Voxa.Utils
             byte b = (byte)((origin.B * amount) + mixColor.B * (1 - amount));
             return Color.FromArgb(r, g, b);
         }
+
+        public static Vector3 Lerp(this Vector3 origin, Vector3 target, float fraction)
+        {
+            origin.X = origin.X.Lerp(target.X, fraction);
+            origin.Y = origin.Y.Lerp(target.Y, fraction);
+            origin.Z = origin.Z.Lerp(target.Z, fraction);
+
+            return origin;
+        }
+
+        public static float Lerp(this float origin, float target, float fraction)
+        {
+            return (origin * (1f - fraction)) + (target * fraction);
+        }
     }
 }

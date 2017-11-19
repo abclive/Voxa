@@ -93,7 +93,7 @@ namespace Voxa.Objects.Renderer
                 }
                 Matrix3Uniform normalMatrixUniform = Engine.UniformManager.GetUniform<Matrix3Uniform>("normalMatrix");
                 normalMatrixUniform.Matrix = Matrix3.Transpose(new Matrix3(transformMatrix.Inverted()));
-                normalMatrixUniform.Set(Engine.RenderingPool.PhongShaderProgram);
+                normalMatrixUniform.Set(this.GetShader());
 
                 foreach (Mesh.Primitive primitive in mesh.Primitives) {
                     // Bind vertex buffer and array objects

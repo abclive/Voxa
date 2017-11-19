@@ -101,7 +101,7 @@ namespace Voxa.Rendering
         public void BufferData()
         {
             // Copy contained vertices to GPU memory
-            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(this.vertexSize * this.count), this.vertices, BufferUsageHint.StreamDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(this.vertexSize * this.count), this.vertices, BufferUsageHint.StaticDraw);
         }
 
         public void Draw()

@@ -144,7 +144,6 @@ namespace Voxa.Utils
 
         public static void UpdateConsole()
         {
-            UpdateStickyDisplay();
             if (isDirty) {
                 isDirty = false;
                 Console.Clear();
@@ -159,6 +158,8 @@ namespace Voxa.Utils
                 foreach (LoggerMessage lMessage in displayLogs) {
                     printLoggerMessage(lMessage);
                 }
+            } else {
+                UpdateStickyDisplay();
             }
         }
 
