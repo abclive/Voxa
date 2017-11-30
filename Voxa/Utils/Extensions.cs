@@ -8,8 +8,15 @@ using OpenTK;
 
 namespace Voxa.Utils
 {
-    public static class MathExtensions
+    public static class Extensions
     {
+        public static T[] SubArray<T>(this T[] data, int index, int length)
+        {
+            T[] result = new T[length];
+            Array.Copy(data, index, result, 0, length);
+            return result;
+        }
+
         public static float Distance(this Vector3 vec, Vector3 target)
         {
             float deltaX = target.X - vec.X;

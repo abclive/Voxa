@@ -35,6 +35,8 @@ namespace Voxa.Rendering
             GL.Enable(EnableCap.DebugOutput);
             GL.Enable(EnableCap.DebugOutputSynchronous);
 
+            GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
+
             GL.DebugMessageCallback(OpenGLDebugger.DebugCallback, (IntPtr)null);
 
             GL.DepthMask(true);

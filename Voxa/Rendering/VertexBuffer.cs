@@ -10,18 +10,19 @@ namespace Voxa.Rendering
 {
     public sealed class VertexBuffer<TVertex> where TVertex : struct
     {
-        private PrimitiveType primitiveType;
-        private readonly int  handle;
-        private readonly int  vertexSize;
+        private PrimitiveType  primitiveType;
+        private readonly int   handle;
+        private readonly int   vertexSize;
 
-        private TVertex[]     vertices;
-        private ushort        count;
-        private bool          disposed;
+        private TVertex[]      vertices;
+        private ushort         count;
+        private bool           disposed;
 
-        public int            Handle { get { return this.handle; } }
-        public int            VertexSize { get { return this.vertexSize; } }
-        public ushort         Count { get { return this.count; } }
-        public int            Capacity { get { return this.vertices.Length; } }
+        public int             Handle { get { return this.handle; } }
+        public int             VertexSize { get { return this.vertexSize; } }
+        public ushort          Count { get { return this.count; } }
+        public int             Capacity { get { return this.vertices.Length; } }
+        public BufferUsageHint BufferUsage;
 
         public VertexBuffer(int vertexSize, PrimitiveType primitiveType = PrimitiveType.Triangles, int capacity = 0)
         {
@@ -29,6 +30,7 @@ namespace Voxa.Rendering
             this.vertexSize = vertexSize;
             this.vertices = new TVertex[capacity > 0 ? capacity : 4];
             this.handle = GL.GenBuffer();
+            this.BufferUsage = BufferUsageHint.StaticDraw;
         }
 
         public void AddVertex(TVertex v)
@@ -101,13 +103,18 @@ namespace Voxa.Rendering
         public void BufferData()
         {
             // Copy contained vertices to GPU memory
-            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(this.vertexSize * this.count), this.vertices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(this.vertexSize * this.count), this.vertices, this.BufferUsage);
         }
 
-        public void Draw()
+        public void BufferSubData(IntPtr offset, int size, TVertex[] vertices)
+        {
+            GL.BufferSubData(BufferTarget.ArrayBuffer, offset, size, vertices);
+        }
+
+        public void Draw(int specifiedCount = -1)
         {
             // Draw buffered vertices as triangles
-            GL.DrawArrays(this.primitiveType, 0, this.count);
+            GL.DrawArrays(this.primitiveType, 0, (specifiedCount >= 0) ? specifiedCount : this.count);
         }
 
         public void Clear()

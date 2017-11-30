@@ -8,6 +8,7 @@ using System.Threading;
 using Voxa.Rendering;
 using Voxa.Logic;
 using Voxa.Utils;
+using SharpFont;
 
 namespace Voxa
 {
@@ -16,23 +17,19 @@ namespace Voxa
         public const int              VERSION_MAJOR = 0;
         public const int              VERSION_MINOR = 1;
 
-        private static EngineWindow   engineWindow;
-        private static RenderingPool  renderingPool;
-        private static UniformManager uniformManager;
-        private static Game           game;
-        private static TaskQueue      taskQueue;
-
         public static Texture         WhitePixelTexture;
 
-        public static EngineWindow    EngineWindow { get { return engineWindow; } }
+        public static EngineWindow    EngineWindow { get; private set; }
 
-        public static RenderingPool   RenderingPool { get { return renderingPool; } }
+        public static RenderingPool   RenderingPool { get; private set; }
 
-        public static UniformManager  UniformManager { get { return uniformManager; } }
+        public static UniformManager  UniformManager { get; private set; }
 
-        public static Game            Game { get { return game; } }
+        public static Game            Game { get; private set; }
 
-        public static TaskQueue       TaskQueue { get { return taskQueue; } }
+        public static TaskQueue       TaskQueue { get; private set; }
+
+        public static Library         FontLibrary { get; private set; }
 
         public Engine()
         {
@@ -43,13 +40,14 @@ namespace Voxa
             Console.ForegroundColor = ConsoleColor.Gray;
             Logger.AddStickyInfo("voxaInfo", new LoggerMessage("V O X A - Lite 3D Engine v" + VERSION_MAJOR + "." + VERSION_MINOR, ConsoleColor.Cyan));
             Logger.Info("Starting Voxa Engine v" + VERSION_MAJOR + "." + VERSION_MINOR);
-            game = gameInstance;
-            engineWindow = new EngineWindow(gameInstance.WINDOW_WIDTH, gameInstance.WINDOW_HEIGHT);
-            renderingPool = new RenderingPool();
-            uniformManager = new UniformManager();
-            taskQueue = new TaskQueue();
+            Game = gameInstance;
+            EngineWindow = new EngineWindow(gameInstance.WINDOW_WIDTH, gameInstance.WINDOW_HEIGHT);
+            RenderingPool = new RenderingPool();
+            UniformManager = new UniformManager();
+            TaskQueue = new TaskQueue();
+            FontLibrary = new Library();
 
-            engineWindow.Run(gameInstance.TARGET_UPDATE_RATE, 0);
+            EngineWindow.Run(gameInstance.TARGET_UPDATE_RATE, 0);
         }
     }
 }

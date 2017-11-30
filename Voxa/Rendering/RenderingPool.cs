@@ -21,8 +21,10 @@ namespace Voxa.Rendering
         private bool            loaded = false;
         private Camera          renderCamera;
         
-        public ShaderProgram    PhongShaderProgram { get { return this.phongShaderProgram; } }
-        public ShaderProgram    SpriteShaderProgram { get { return this.spriteShaderProgram; } }
+        public ShaderProgram      PhongShaderProgram { get { return this.phongShaderProgram; } }
+        public ShaderProgram      SpriteShaderProgram { get { return this.spriteShaderProgram; } }
+        public ShaderProgram      TextShaderProgram { get; private set; }
+        public OrthographicCamera TextCamera { get; private set; }
 
         public RenderingPool()
         {
@@ -42,8 +44,15 @@ namespace Voxa.Rendering
             Shader spriteFragmentShader = new Shader(ShaderType.FragmentShader, spriteFragmentShaderCode);
             this.spriteShaderProgram = new ShaderProgram(spriteVertexShader, spriteFragmentShader);
 
+            string textVertexShaderCode = ResourceManager.GetTextResource("Voxa.Assets.Shaders.TextShader.vert");
+            string textFragmentShaderCode = ResourceManager.GetTextResource("Voxa.Assets.Shaders.TextFragmentShader.frag");
+            Shader textVertexShader = new Shader(ShaderType.VertexShader, textVertexShaderCode);
+            Shader textFragmentShader = new Shader(ShaderType.FragmentShader, textFragmentShaderCode);
+            this.TextShaderProgram = new ShaderProgram(textVertexShader, textFragmentShader);
+
             this.rendererPool = new List<IRenderer>();
 
+            this.TextCamera = new OrthographicCamera(Engine.EngineWindow.Width, Engine.EngineWindow.Height, 0, 200);
             this.projectionMatrix = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, Engine.EngineWindow.Width / (float)Engine.EngineWindow.Height, 0.1f, Engine.Game.RENDER_DISTANCE);
             Matrix4 modelview = Matrix4.LookAt(Vector3.Zero, Vector3.UnitZ, Vector3.UnitY);
 
