@@ -39,8 +39,8 @@ namespace Voxa.Objects.Renderer
             this.Position = position;
             this.Font = font;
             this.Scale = 1;
-            this.Camera = Engine.RenderingPool.TextCamera;
-            this.Priority = 1;
+            this.Camera = Engine.RenderingPool.UICamera;
+            this.Priority = 100;
         }
 
         public TextRenderer(string text, Vector2 position, Color4 color, Font font, float scale)
@@ -50,8 +50,8 @@ namespace Voxa.Objects.Renderer
             this.Position = position;
             this.Font = font;
             this.Scale = scale;
-            this.Camera = Engine.RenderingPool.TextCamera;
-            this.Priority = 1;
+            this.Camera = Engine.RenderingPool.UICamera;
+            this.Priority = 100;
         }
 
         public TextRenderer(string text, Vector2 position, Color4 color, Font font, OrthographicCamera camera)
@@ -61,7 +61,7 @@ namespace Voxa.Objects.Renderer
             this.Position = position;
             this.Font = font;
             this.Camera = camera;
-            this.Priority = 1;
+            this.Priority = 100;
             this.Scale = 1;
         }
 
@@ -90,30 +90,32 @@ namespace Voxa.Objects.Renderer
 
         public void Render()
         {
-            Matrix4Uniform textProjection = Engine.UniformManager.GetUniform<Matrix4Uniform>("textProjection");
-            textProjection.Matrix = this.Camera.GetProjectionMatrix();
-            textProjection.Set(this.GetShader());
+            if (this.Active) {
+                Matrix4Uniform textProjection = Engine.UniformManager.GetUniform<Matrix4Uniform>("textProjection");
+                textProjection.Matrix = this.Camera.GetProjectionMatrix();
+                textProjection.Set(this.GetShader());
 
-            Vector3Uniform textColor = Engine.UniformManager.GetUniform<Vector3Uniform>("textColor");
-            textColor.Value = new Vector3(this.Color.R, this.Color.G, this.Color.B);
-            textColor.Set(this.GetShader());
+                Vector3Uniform textColor = Engine.UniformManager.GetUniform<Vector3Uniform>("textColor");
+                textColor.Value = new Vector3(this.Color.R, this.Color.G, this.Color.B);
+                textColor.Set(this.GetShader());
 
-            GL.ActiveTexture(TextureUnit.Texture0);
-            this.vertexArray.Bind();
-            this.vertexBuffer.Bind();
-            GL.BufferData(BufferTarget.ArrayBuffer, sizeof(float) * 6 * 4, (IntPtr)null, BufferUsageHint.DynamicDraw);
-
-            for (int i = 0; i < this.Text.Length; i++) {
-                Font.Character character = this.Font.Characters[this.Text[i]];
-
-                GL.BindTexture(TextureTarget.Texture2D, character.TextureId);
-
-                TextVertex[] subVertices = textVertices.SubArray(i * 6, 6);
-
+                GL.ActiveTexture(TextureUnit.Texture0);
+                this.vertexArray.Bind();
                 this.vertexBuffer.Bind();
-                this.vertexBuffer.BufferSubData((IntPtr)0, TextVertex.Size * subVertices.Length, subVertices);
-                GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-                GL.DrawArrays(PrimitiveType.Triangles, 0, 6);
+                GL.BufferData(BufferTarget.ArrayBuffer, sizeof(float) * 6 * 4, (IntPtr)null, BufferUsageHint.DynamicDraw);
+
+                for (int i = 0; i < this.Text.Length; i++) {
+                    Font.Character character = this.Font.Characters[this.Text[i]];
+
+                    GL.BindTexture(TextureTarget.Texture2D, character.TextureId);
+
+                    TextVertex[] subVertices = textVertices.SubArray(i * 6, 6);
+
+                    this.vertexBuffer.Bind();
+                    this.vertexBuffer.BufferSubData((IntPtr)0, TextVertex.Size * subVertices.Length, subVertices);
+                    GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+                    GL.DrawArrays(PrimitiveType.Triangles, 0, 6);
+                }
             }
         }
 
@@ -142,6 +144,29 @@ namespace Voxa.Objects.Renderer
 
                 x += character.Advance * this.Scale;
             }
+        }
+
+        public int GetPixelWidth()
+        {
+            List<int> linesSize = new List<int>();
+            int currentSize = 0;
+            for (int i = 0; i < this.Text.Length; i++) {
+                Font.Character character = this.Font.Characters[this.Text[i]];
+                if (this.Text[i] == '\n') {
+                    linesSize.Add(currentSize);
+                    currentSize = 0;
+                    continue;
+                }
+                currentSize += (int)(character.Advance * this.Scale);
+                if (i + 1 == this.Text.Length) {
+                    linesSize.Add(currentSize);
+                }
+            }
+            linesSize.Sort((int a, int b) => {
+                if (a > b) return 1;
+                return -1;
+            });
+            return linesSize.First();
         }
 
         public int GetPriority()

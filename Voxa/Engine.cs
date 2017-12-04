@@ -41,7 +41,7 @@ namespace Voxa
             Logger.AddStickyInfo("voxaInfo", new LoggerMessage("V O X A - Lite 3D Engine v" + VERSION_MAJOR + "." + VERSION_MINOR, ConsoleColor.Cyan));
             Logger.Info("Starting Voxa Engine v" + VERSION_MAJOR + "." + VERSION_MINOR);
             Game = gameInstance;
-            EngineWindow = new EngineWindow(gameInstance.WINDOW_WIDTH, gameInstance.WINDOW_HEIGHT);
+            EngineWindow = new EngineWindow(gameInstance.WINDOW_WIDTH, gameInstance.WINDOW_HEIGHT, gameInstance.WINDOW_TITLE, gameInstance.LOCK_MOUSE);
             RenderingPool = new RenderingPool();
             UniformManager = new UniformManager();
             TaskQueue = new TaskQueue();

@@ -15,11 +15,13 @@ namespace Voxa.Logic
         public virtual int WINDOW_HEIGHT { get { return 400; } }
         public virtual int RENDER_DISTANCE { get { return 1; } }
         public virtual double TARGET_UPDATE_RATE { get { return 60; } }
+        public virtual bool LOCK_MOUSE { get { return true; } }
+        public virtual string WINDOW_TITLE { get { return "Voxa"; } }
 
         public virtual Vector4 ClearColor { get { return new Vector4(0.12f, 0.48f, 0.69f, 1.0f); } }
 
-        private double updateElapsedTime = 0;
-        private double renderElapsedTime = 0;
+        public double UpdateElapsedTime { get; private set; }
+        public double RenderElapsedTime { get; private set; }
 
         public Scene  CurrentScene;
 
@@ -41,7 +43,7 @@ namespace Voxa.Logic
 
         public virtual void Update(FrameEventArgs e)
         {
-            this.updateElapsedTime = e.Time;
+            this.UpdateElapsedTime = e.Time;
             if (this.CurrentScene != null) {
                 this.CurrentScene.UpdateAll();
                 this.debugGameInfo();
@@ -50,7 +52,7 @@ namespace Voxa.Logic
 
         public virtual void Render(FrameEventArgs e)
         {
-            this.renderElapsedTime = e.Time;
+            this.RenderElapsedTime = e.Time;
             Engine.RenderingPool.RenderPool();
         }
 
@@ -58,7 +60,7 @@ namespace Voxa.Logic
         {
             int count = this.CurrentScene.GetGameObjectCount();
             int fps = (int)Engine.EngineWindow.RenderFrequency;
-            Logger.UpdateStickyInfo("engineStats", "GameObj Count: " + count.ToString() + " FPS: " + fps + " Update time: " + updateElapsedTime.ToString("0.000") + "ms Render time: " + renderElapsedTime.ToString("0.00") + "ms");
+            Logger.UpdateStickyInfo("engineStats", "GameObj Count: " + count.ToString() + " FPS: " + fps + " Update time: " + UpdateElapsedTime.ToString("0.000") + "ms Render time: " + RenderElapsedTime.ToString("0.00") + "ms");
         }
     }
 }

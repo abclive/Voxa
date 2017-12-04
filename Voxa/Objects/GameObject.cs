@@ -72,7 +72,7 @@ namespace Voxa.Objects
 
         public virtual void OnLoad()
         {
-            foreach (Component component in componentList) {
+            foreach (Component component in componentList.ToList()) {
                 component.OnLoad();
             }
         }

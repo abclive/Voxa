@@ -28,7 +28,7 @@ namespace Voxa.Objects
 
         public Matrix4 GetProjectionMatrix()
         {
-            return Matrix4.CreateOrthographic(this.Width, this.Height, this.ZNear, this.ZFar);
+            return Matrix4.CreateOrthographicOffCenter(0, this.Width, 0, this.Height, this.ZNear, this.ZFar);
         }
     }
 }

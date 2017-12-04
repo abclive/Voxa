@@ -14,12 +14,16 @@ namespace Voxa.Rendering
 {
     public sealed class EngineWindow : GameWindow
     {
+        public bool LockMouse { get { return this.lockMouse; } set { this.CursorVisible = !value; this.lockMouse = value; } }
         public Vector2 LastMousePos = new Vector2();
 
-        public EngineWindow(int windowWidth, int windowHeight) : base(windowWidth, windowHeight, new GraphicsMode(32, 1, 0, 4), "Voxa", GameWindowFlags.Default, DisplayDevice.Default, 3, 0, GraphicsContextFlags.ForwardCompatible)
+        private bool lockMouse;
+
+        public EngineWindow(int windowWidth, int windowHeight, string windowTitle = "Voxa", bool lockMouse = true) : base(windowWidth, windowHeight, new GraphicsMode(32, 1, 0, 4), windowTitle, GameWindowFlags.Default, DisplayDevice.Default, 3, 0, GraphicsContextFlags.ForwardCompatible)
         {
             this.VSync = VSyncMode.Off;
             Logger.Info("OpenGL version: " + GL.GetString(StringName.Version));
+            this.lockMouse = lockMouse;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -46,7 +50,7 @@ namespace Voxa.Rendering
             Engine.WhitePixelTexture.Filtering = Texture.FilteringMode.NEAREST_NEIGHBOR;
             Engine.WhitePixelTexture.Load();
             Engine.Game.Start();
-            this.CursorVisible = false;
+            this.CursorVisible = !this.LockMouse;
         }
 
         protected override void OnResize(EventArgs e)
@@ -68,7 +72,7 @@ namespace Voxa.Rendering
 
             Engine.TaskQueue.CallPendingCallbacks();
             Engine.Game.Update(e);
-            if (this.Focused) {
+            if (this.Focused && this.LockMouse) {
                 this.resetCursor();
             }
             
@@ -97,7 +101,7 @@ namespace Voxa.Rendering
         {
             base.OnFocusedChanged(e);
 
-            if (this.Focused) {
+            if (this.Focused && this.LockMouse) {
                 this.resetCursor();
             }
         }
