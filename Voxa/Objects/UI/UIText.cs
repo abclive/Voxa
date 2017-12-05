@@ -30,6 +30,7 @@ namespace Voxa.Objects.UI
         public Color4 Color { get; private set; }
         public Font Font { get; private set; }
         public float Scale { get; private set; }
+        public Vector2 Padding { get; private set; }
 
         private TextRenderer textRenderer;
         private GameObject gameObject;
@@ -42,6 +43,7 @@ namespace Voxa.Objects.UI
             this.Font = font;
             this.Scale = scale;
             this.Position = Vector2.Zero;
+            this.Padding = Vector2.Zero;
             this.initRenderer();
             this.SetParent(parent);
             this.SetAlignment(alignment);
@@ -55,6 +57,7 @@ namespace Voxa.Objects.UI
             this.Font = font;
             this.Scale = scale;
             this.Position = position;
+            this.Padding = Vector2.Zero;
             this.initRenderer();
         }
 
@@ -95,6 +98,12 @@ namespace Voxa.Objects.UI
             }
         }
 
+        public void SetPadding(Vector2 padding)
+        {
+            this.Padding = padding;
+            this.SetDirty();
+        }
+
         public override void SetDirty()
         {
             base.SetDirty();
@@ -105,6 +114,7 @@ namespace Voxa.Objects.UI
 
         public void SetAlignment(AlignmentMode alignment)
         {
+            this.Alignment = alignment;
             if (this.Parent != null && this.Parent is ICanvas) {
                 Vector2 position = this.Position;
                 Vector2 pPos = this.Parent.Position;
@@ -116,8 +126,74 @@ namespace Voxa.Objects.UI
                     case AlignmentMode.Center: {
                         if (textPixelWidth <= pSize.Width) {
                             position.X = pPos.X + ((pSize.Width - textPixelWidth) / 2);
-                            position.Y = pPos.Y + (pSize.Height / 2);
+                        } else {
+                            position.X = pPos.X + (pSize.Width / 2);
                         }
+                        position.Y = pPos.Y + (pSize.Height / 2);
+                        break;
+                    } case AlignmentMode.CenterLeft: {
+                        if (textPixelWidth <= pSize.Width) {
+                            position.X = pPos.X + this.Padding.X;
+                        } else {
+                            position.X = pPos.X;
+                        }
+                        position.Y = pPos.Y + (pSize.Height / 2);
+                        break;
+                    } case AlignmentMode.CenterRight: {
+                        if (textPixelWidth <= pSize.Width) {
+                            position.X = pPos.X + (pSize.Width - textPixelWidth - this.Padding.X);
+                        } else {
+                            position.X = pPos.X + (pSize.Width - textPixelWidth);
+                        }
+                        position.Y = pPos.Y + (pSize.Height / 2);
+                        break;
+                    } case AlignmentMode.BottomCenter: {
+                        if (textPixelWidth <= pSize.Width) {
+                            position.X = pPos.X + ((pSize.Width - textPixelWidth) / 2);
+                        } else {
+                            position.X = pPos.X + (pSize.Width / 2);
+                        }
+                        position.Y = pPos.Y + this.Padding.Y;
+                        break;
+                    } case AlignmentMode.BottomLeft: {
+                        if (textPixelWidth <= pSize.Width) {
+                            position.X = pPos.X + this.Padding.X;
+                        } else {
+                            position.X = pPos.X;
+                        }
+                        position.Y = pPos.Y + this.Padding.Y;
+                        break;
+                    } case AlignmentMode.BottomRight: {
+                        if (textPixelWidth <= pSize.Width) {
+                            position.X = pPos.X + (pSize.Width - textPixelWidth - this.Padding.X);
+                        } else {
+                            position.X = pPos.X + (pSize.Width - textPixelWidth);
+                        }
+                        position.Y = pPos.Y + this.Padding.Y;
+                        break;
+                    } case AlignmentMode.TopCenter: {
+                        if (textPixelWidth <= pSize.Width) {
+                            position.X = pPos.X + ((pSize.Width - textPixelWidth) / 2);
+                        } else {
+                            position.X = pPos.X + (pSize.Width / 2);
+                        }
+                        position.Y = pPos.Y + (pSize.Height - this.Padding.Y);
+                        break;
+                    } case AlignmentMode.TopLeft: {
+                        if (textPixelWidth <= pSize.Width) {
+                            position.X = pPos.X + this.Padding.X;
+                        } else {
+                            position.X = pPos.X;
+                        }
+                        position.Y = pPos.Y + (pSize.Height - this.Padding.Y);
+                        break;
+                    } case AlignmentMode.TopRight: {
+                        if (textPixelWidth <= pSize.Width) {
+                            position.X = pPos.X + (pSize.Width - textPixelWidth - this.Padding.X);
+                        } else {
+                            position.X = pPos.X + (pSize.Width - textPixelWidth);
+                        }
+                        position.Y = pPos.Y + (pSize.Height - this.Padding.Y);
                         break;
                     }
                 }
