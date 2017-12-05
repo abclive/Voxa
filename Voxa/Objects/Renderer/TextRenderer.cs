@@ -18,7 +18,7 @@ namespace Voxa.Objects.Renderer
         public Font               Font;
         public Color4             Color = Color4.White;
         public Vector2            Position = Vector2.Zero;
-        public float              Scale;
+        public double             Scale;
         public bool               Active = true;
 
         public ShaderProgram      CustomShader;
@@ -43,7 +43,7 @@ namespace Voxa.Objects.Renderer
             this.Priority = 100;
         }
 
-        public TextRenderer(string text, Vector2 position, Color4 color, Font font, float scale)
+        public TextRenderer(string text, Vector2 position, Color4 color, Font font, double scale)
         {
             this.Text = text;
             this.Color = color;
@@ -128,11 +128,11 @@ namespace Voxa.Objects.Renderer
             for (int i = 0; i < this.Text.Length; i++) {
                 Font.Character character = this.Font.Characters[this.Text[i]];
 
-                float xPos = x + character.Bearing.X * this.Scale;
-                float yPos = this.Position.Y - (character.Size.Height - character.Bearing.Y) * this.Scale;
+                float xPos = x + character.Bearing.X * (float)this.Scale;
+                float yPos = this.Position.Y - (character.Size.Height - character.Bearing.Y) * (float)this.Scale;
 
-                float w = character.Size.Width * this.Scale;
-                float h = character.Size.Height * this.Scale;
+                float w = character.Size.Width * (float)this.Scale;
+                float h = character.Size.Height * (float)this.Scale;
 
                 this.textVertices[vIndex++] = new TextVertex(new Vector2(xPos, yPos + h),     new Vector2(0, 0));
                 this.textVertices[vIndex++] = new TextVertex(new Vector2(xPos, yPos),         new Vector2(0, 1));
@@ -142,14 +142,14 @@ namespace Voxa.Objects.Renderer
                 this.textVertices[vIndex++] = new TextVertex(new Vector2(xPos + w, yPos),     new Vector2(1, 1));
                 this.textVertices[vIndex++] = new TextVertex(new Vector2(xPos + w, yPos + h), new Vector2(1, 0));
 
-                x += character.Advance * this.Scale;
+                x += character.Advance * (float)this.Scale;
             }
         }
 
-        public int GetPixelWidth()
+        public double GetPixelWidth()
         {
-            List<int> linesSize = new List<int>();
-            int currentSize = 0;
+            List<double> linesSize = new List<double>();
+            double currentSize = 0;
             for (int i = 0; i < this.Text.Length; i++) {
                 Font.Character character = this.Font.Characters[this.Text[i]];
                 if (this.Text[i] == '\n') {
@@ -157,12 +157,12 @@ namespace Voxa.Objects.Renderer
                     currentSize = 0;
                     continue;
                 }
-                currentSize += (int)(character.Advance * this.Scale);
+                currentSize += (double)(character.Advance) * this.Scale;
                 if (i + 1 == this.Text.Length) {
                     linesSize.Add(currentSize);
                 }
             }
-            linesSize.Sort((int a, int b) => {
+            linesSize.Sort((double a, double b) => {
                 if (a > b) return 1;
                 return -1;
             });

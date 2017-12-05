@@ -154,7 +154,7 @@ namespace Voxa.Utils
                 Console.WriteLine(new String('=', Console.WindowWidth));
                 int startLog = Console.CursorTop;
                 int maxLogs = Console.WindowHeight - startLog - 1;
-                List<LoggerMessage> displayLogs = logs.ToList().Skip((logs.Count - maxLogs < 0) ? 0 : logs.Count - maxLogs).ToList();
+                List<LoggerMessage> displayLogs = logs.ToList().Skip((logs.ToList().Count - maxLogs < 0) ? 0 : logs.ToList().Count - maxLogs).ToList();
                 foreach (LoggerMessage lMessage in displayLogs) {
                     printLoggerMessage(lMessage);
                 }
