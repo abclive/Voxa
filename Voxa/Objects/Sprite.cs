@@ -13,7 +13,7 @@ namespace Voxa.Objects
         public Texture Texture;
         public Vector2 Position;
         public int     Order;
-        public float   Size;
+        public Vector2 Size;
 
         public Sprite()
         {}
@@ -22,7 +22,7 @@ namespace Voxa.Objects
         {
             this.Texture = texture;
             this.Position = Vector2.Zero;
-            this.Size = 1;
+            this.Size = new Vector2(1, 1);
             this.Order = 1;
         }
 
@@ -30,11 +30,19 @@ namespace Voxa.Objects
         {
             this.Texture = texture;
             this.Position = position;
-            this.Size = 1;
+            this.Size = new Vector2(1, 1);
             this.Order = 1;
         }
 
         public Sprite(Texture texture, Vector2 position, float size)
+        {
+            this.Texture = texture;
+            this.Position = position;
+            this.Size = new Vector2(size, size);
+            this.Order = 1;
+        }
+
+        public Sprite(Texture texture, Vector2 position, Vector2 size)
         {
             this.Texture = texture;
             this.Position = position;
@@ -43,6 +51,14 @@ namespace Voxa.Objects
         }
 
         public Sprite(Texture texture, Vector2 position, float size, int order)
+        {
+            this.Texture = texture;
+            this.Position = position;
+            this.Size = new Vector2(size, size);
+            this.Order = order;
+        }
+
+        public Sprite(Texture texture, Vector2 position, Vector2 size, int order)
         {
             this.Texture = texture;
             this.Position = position;

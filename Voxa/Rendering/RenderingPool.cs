@@ -23,6 +23,7 @@ namespace Voxa.Rendering
         
         public ShaderProgram      PhongShaderProgram { get { return this.phongShaderProgram; } }
         public ShaderProgram      SpriteShaderProgram { get { return this.spriteShaderProgram; } }
+        public ShaderProgram      LineShaderProgram { get; private set; }
         public ShaderProgram      TextShaderProgram { get; private set; }
         public OrthographicCamera UICamera { get; private set; }
 
@@ -49,6 +50,12 @@ namespace Voxa.Rendering
             Shader textVertexShader = new Shader(ShaderType.VertexShader, textVertexShaderCode);
             Shader textFragmentShader = new Shader(ShaderType.FragmentShader, textFragmentShaderCode);
             this.TextShaderProgram = new ShaderProgram(textVertexShader, textFragmentShader);
+
+            string lineVertexShaderCode = ResourceManager.GetTextResource("Voxa.Assets.Shaders.LineShader.vert");
+            string lineFragmentShaderCode = ResourceManager.GetTextResource("Voxa.Assets.Shaders.LineFragmentShader.frag");
+            Shader lineVertexShader = new Shader(ShaderType.VertexShader, lineVertexShaderCode);
+            Shader lineFragmentShader = new Shader(ShaderType.FragmentShader, lineFragmentShaderCode);
+            this.LineShaderProgram = new ShaderProgram(lineVertexShader, lineFragmentShader);
 
             this.rendererPool = new List<IRenderer>();
 

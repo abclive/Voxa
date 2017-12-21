@@ -81,12 +81,14 @@
     <Compile Include="Logic\FirstPersonCamera.cs" />
     <Compile Include="Objects\Camera.cs" />
     <Compile Include="Objects\Component.cs" />
+    <Compile Include="Objects\DebugLine.cs" />
     <Compile Include="Objects\Light.cs" />
     <Compile Include="Objects\Material.cs" />
     <Compile Include="Objects\Mesh.cs" />
     <Compile Include="Objects\OrthographicCamera.cs" />
     <Compile Include="Objects\PointLight.cs" />
     <Compile Include="Objects\Renderer\IRenderer.cs" />
+    <Compile Include="Objects\Renderer\LineRenderer.cs" />
     <Compile Include="Objects\Renderer\ModelRenderer.cs" />
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Logic\Game.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Objects\UI\ICanvas.cs" />
     <Compile Include="Objects\UI\UIElement.cs" />
     <Compile Include="Objects\UI\UIGrid.cs" />
+    <Compile Include="Objects\UI\UISprite.cs" />
     <Compile Include="Objects\UI\UIText.cs" />
     <Compile Include="Primitives\Shape\IShapeDecorator.cs" />
     <Compile Include="Primitives\Shape\Plane.cs" />
@@ -129,6 +132,7 @@
     <Compile Include="Rendering\Uniforms\Sampler2DUniform.cs" />
     <Compile Include="Rendering\Uniforms\Vector3Uniform.cs" />
     <Compile Include="Rendering\Uniforms\Vector4Uniform.cs" />
+    <Compile Include="Rendering\UnlitColouredVertex.cs" />
     <Compile Include="Rendering\VertexArray.cs" />
     <Compile Include="Rendering\VertexAttribute.cs" />
     <Compile Include="Rendering\VertexBuffer.cs" />
@@ -148,6 +152,8 @@
     <EmbeddedResource Include="Assets\Shaders\SpriteShader.vert" />
     <EmbeddedResource Include="Assets\Shaders\TextFragmentShader.frag" />
     <EmbeddedResource Include="Assets\Shaders\TextShader.vert" />
+    <EmbeddedResource Include="Assets\Shaders\LineFragmentShader.frag" />
+    <EmbeddedResource Include="Assets\Shaders\LineShader.vert" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Assets\Shaders\BasicFragmentShader.frag" />

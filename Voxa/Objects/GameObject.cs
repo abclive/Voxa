@@ -64,7 +64,7 @@ namespace Voxa.Objects
 
         public void Update()
         {
-            foreach (Component component in componentList) {
+            foreach (Component component in componentList.ToList()) {
                 component.OnUpdate();
             }
             this.OnUpdate();

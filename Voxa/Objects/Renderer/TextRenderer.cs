@@ -169,6 +169,12 @@ namespace Voxa.Objects.Renderer
             return linesSize.First();
         }
 
+        public int GetPixelHeight()
+        {
+            Font.Character character = this.Font.Characters[this.Text[0]];
+            return character.Size.Height;
+        }
+
         public int GetPriority()
         {
             return this.Priority;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 using Voxa.Rendering;
 using Voxa.Rendering.Uniforms;
 using OpenTK;
@@ -13,6 +14,7 @@ namespace Voxa.Objects.Renderer
     public class SpriteRenderer : Component, IRenderer
     {
         public Sprite               Sprite;
+        public Size                 CustomSize = Size.Empty;
         public ShaderProgram        CustomShader;
         public OrthographicCamera   Camera;
         public int                  Priority;
@@ -97,11 +99,19 @@ namespace Voxa.Objects.Renderer
 
         public void UpdateVertexBuffer()
         {
+            this.vertexBuffer.Clear();
             SpriteVertex[] vertices = new SpriteVertex[4];
-            vertices[0] = new SpriteVertex(new Vector3((Sprite.Position.X - Sprite.Texture.Width / 2) * Sprite.Size, (Sprite.Position.Y - Sprite.Texture.Height / 2) * Sprite.Size, -Sprite.Order), new Vector2(0, 1)); // bottom left
-            vertices[1] = new SpriteVertex(new Vector3((Sprite.Position.X - Sprite.Texture.Width / 2) * Sprite.Size, (Sprite.Position.Y + Sprite.Texture.Height / 2) * Sprite.Size, -Sprite.Order), new Vector2(0, 0)); // top left
-            vertices[2] = new SpriteVertex(new Vector3((Sprite.Position.X + Sprite.Texture.Width / 2) * Sprite.Size, (Sprite.Position.Y + Sprite.Texture.Height / 2) * Sprite.Size, -Sprite.Order), new Vector2(1, 0)); // top right
-            vertices[3] = new SpriteVertex(new Vector3((Sprite.Position.X + Sprite.Texture.Width / 2) * Sprite.Size, (Sprite.Position.Y - Sprite.Texture.Height / 2) * Sprite.Size, -Sprite.Order), new Vector2(1, 1)); // bottom right
+            if (this.CustomSize == Size.Empty) {
+                vertices[0] = new SpriteVertex(new Vector3(Sprite.Position.X, Sprite.Position.Y, -Sprite.Order), new Vector2(0, 1)); // bottom left
+                vertices[1] = new SpriteVertex(new Vector3(Sprite.Position.X, Sprite.Position.Y + (Sprite.Texture.Height * Sprite.Size.Y), -Sprite.Order), new Vector2(0, 0)); // top left
+                vertices[2] = new SpriteVertex(new Vector3(Sprite.Position.X + (Sprite.Texture.Width * Sprite.Size.X), Sprite.Position.Y + (Sprite.Texture.Height * Sprite.Size.Y), -Sprite.Order), new Vector2(1, 0)); // top right
+                vertices[3] = new SpriteVertex(new Vector3(Sprite.Position.X + (Sprite.Texture.Width * Sprite.Size.X), Sprite.Position.Y, -Sprite.Order), new Vector2(1, 1)); // bottom right
+            } else {
+                vertices[0] = new SpriteVertex(new Vector3(Sprite.Position.X, Sprite.Position.Y, -Sprite.Order), new Vector2(0, 1)); // bottom left
+                vertices[1] = new SpriteVertex(new Vector3(Sprite.Position.X, Sprite.Position.Y + this.CustomSize.Height, -Sprite.Order), new Vector2(0, 0)); // top left
+                vertices[2] = new SpriteVertex(new Vector3(Sprite.Position.X + this.CustomSize.Width, Sprite.Position.Y + this.CustomSize.Height, -Sprite.Order), new Vector2(1, 0)); // top right
+                vertices[3] = new SpriteVertex(new Vector3(Sprite.Position.X + this.CustomSize.Width, Sprite.Position.Y, -Sprite.Order), new Vector2(1, 1)); // bottom right
+            }
 
             this.vertexBuffer.AddVertices(vertices);
         }

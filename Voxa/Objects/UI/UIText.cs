@@ -196,6 +196,7 @@ namespace Voxa.Objects.UI
                 ICanvas pCanvas = (ICanvas)(this.Parent);
                 System.Drawing.Size pSize = pCanvas.Size;
                 int textPixelWidth = (int)this.textRenderer.GetPixelWidth();
+                int textPixelHeight = this.textRenderer.GetPixelHeight();
                 if (this.RescaleMode == ScaleMode.Fill) textPixelWidth -= 1;
 
                 switch (alignment) {
@@ -205,7 +206,7 @@ namespace Voxa.Objects.UI
                         } else {
                             position.X = pPos.X + (pSize.Width / 2);
                         }
-                        position.Y = pPos.Y + (pSize.Height / 2);
+                        position.Y = pPos.Y + (pSize.Height / 2) - (textPixelHeight / 2);
                         break;
                     } case AlignmentMode.CenterLeft: {
                         if (textPixelWidth <= pSize.Width) {
@@ -213,7 +214,7 @@ namespace Voxa.Objects.UI
                         } else {
                             position.X = pPos.X;
                         }
-                        position.Y = pPos.Y + (pSize.Height / 2);
+                        position.Y = pPos.Y + (pSize.Height / 2) - (textPixelHeight / 2);
                         break;
                     } case AlignmentMode.CenterRight: {
                         if (textPixelWidth <= pSize.Width) {
@@ -221,7 +222,7 @@ namespace Voxa.Objects.UI
                         } else {
                             position.X = pPos.X + (pSize.Width - textPixelWidth);
                         }
-                        position.Y = pPos.Y + (pSize.Height / 2);
+                        position.Y = pPos.Y + (pSize.Height / 2) - (textPixelHeight / 2);
                         break;
                     } case AlignmentMode.BottomCenter: {
                         if (textPixelWidth <= pSize.Width) {
