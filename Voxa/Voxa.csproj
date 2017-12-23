@@ -98,6 +98,7 @@
     <Compile Include="Objects\StaticModel.cs" />
     <Compile Include="Objects\Transform.cs" />
     <Compile Include="Objects\UI\ICanvas.cs" />
+    <Compile Include="Objects\UI\UIButton.cs" />
     <Compile Include="Objects\UI\UIElement.cs" />
     <Compile Include="Objects\UI\UIGrid.cs" />
     <Compile Include="Objects\UI\UISprite.cs" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
+using OpenTK.Graphics;
 using System.Drawing;
 using Voxa.Objects.Renderer;
 
@@ -249,6 +250,12 @@ namespace Voxa.Objects.UI
                 this.Sprite.Position = position;
                 this.spriteRenderer.UpdateVertexBuffer();
             }
+        }
+
+        public void Destroy()
+        {
+            this.spriteRenderer = null;
+            this.Sprite = null;
         }
     }
 }

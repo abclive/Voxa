@@ -59,10 +59,18 @@ namespace Voxa.Objects
 
         public virtual void Load()
         {
-            foreach (GameObject gameObject in this.gameObjectList) {
+            foreach (GameObject gameObject in this.gameObjectList.ToList()) {
                 gameObject.OnLoad();
             }
             this.activeCamera.OnLoad();
+        }
+
+        public virtual void Unload()
+        {
+            foreach (GameObject gameObject in this.gameObjectList.ToList()) {
+                gameObject.Destroy();
+            }
+            this.activeCamera.Destroy();
         }
 
         public virtual void UpdateAll()

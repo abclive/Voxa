@@ -17,6 +17,7 @@ namespace Voxa.Objects.Renderer
         public ShaderProgram CustomShader;
         public int           Priority;
 
+        private bool isInit = false;
         private Dictionary<Guid, int> glBufferIds = new Dictionary<Guid, int>();
         protected Dictionary<Guid, VertexBuffer<TexturedVertex>> vertexBuffers = new Dictionary<Guid, VertexBuffer<TexturedVertex>>();
         protected Dictionary<Guid, VertexArray<TexturedVertex>> vertexArrays = new Dictionary<Guid, VertexArray<TexturedVertex>>();
@@ -57,27 +58,30 @@ namespace Voxa.Objects.Renderer
 
         public void Init()
         {
-            foreach (Mesh mesh in this.Model.Meshes) {
-                foreach (Mesh.Primitive primitive in mesh.Primitives) {
-                    this.glBufferIds.Add(primitive.GUID, GL.GenBuffer());
-                    this.vertexBuffers.Add(primitive.GUID, new VertexBuffer<TexturedVertex>(TexturedVertex.Size, PrimitiveType.Triangles));
-                    this.vertexArrays.Add(primitive.GUID, new VertexArray<TexturedVertex>(
-                        this.vertexBuffers[primitive.GUID], this.GetShader(),
-                        new VertexAttribute("vPosition", 3, VertexAttribPointerType.Float, TexturedVertex.Size, 0),
-                        new VertexAttribute("vColor", 4, VertexAttribPointerType.Float, TexturedVertex.Size, 12),
-                        new VertexAttribute("vTexCoord", 2, VertexAttribPointerType.Float, TexturedVertex.Size, 28),
-                        new VertexAttribute("vNormal", 3, VertexAttribPointerType.Float, TexturedVertex.Size, 36)
-                    ));
-                    if (!Model.Materials[primitive.MaterialModelId].IsLoaded)
-                        Model.Materials[primitive.MaterialModelId].Load();
+            if (!this.isInit) {
+                this.isInit = true;
+                foreach (Mesh mesh in this.Model.Meshes) {
+                    foreach (Mesh.Primitive primitive in mesh.Primitives) {
+                        this.glBufferIds.Add(primitive.GUID, GL.GenBuffer());
+                        this.vertexBuffers.Add(primitive.GUID, new VertexBuffer<TexturedVertex>(TexturedVertex.Size, PrimitiveType.Triangles));
+                        this.vertexArrays.Add(primitive.GUID, new VertexArray<TexturedVertex>(
+                            this.vertexBuffers[primitive.GUID], this.GetShader(),
+                            new VertexAttribute("vPosition", 3, VertexAttribPointerType.Float, TexturedVertex.Size, 0),
+                            new VertexAttribute("vColor", 4, VertexAttribPointerType.Float, TexturedVertex.Size, 12),
+                            new VertexAttribute("vTexCoord", 2, VertexAttribPointerType.Float, TexturedVertex.Size, 28),
+                            new VertexAttribute("vNormal", 3, VertexAttribPointerType.Float, TexturedVertex.Size, 36)
+                        ));
+                        if (!Model.Materials[primitive.MaterialModelId].IsLoaded)
+                            Model.Materials[primitive.MaterialModelId].Load();
 
-                    foreach (TexturedVertex vertex in primitive.Vertices) {
-                        this.vertexBuffers[primitive.GUID].AddVertex(vertex);
+                        foreach (TexturedVertex vertex in primitive.Vertices) {
+                            this.vertexBuffers[primitive.GUID].AddVertex(vertex);
+                        }
                     }
                 }
-            }
 
-            Engine.RenderingPool.AddToPool(this, this.Priority);
+                Engine.RenderingPool.AddToPool(this, this.Priority);
+            }
         }
 
         public void Render()

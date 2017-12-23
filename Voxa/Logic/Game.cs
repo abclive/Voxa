@@ -37,6 +37,9 @@ namespace Voxa.Logic
 
         public void LoadScene(Scene sceneToload)
         {
+            if (CurrentScene != null) {
+                CurrentScene.Unload();
+            }
             CurrentScene = sceneToload;
             sceneToload.Load();
         }

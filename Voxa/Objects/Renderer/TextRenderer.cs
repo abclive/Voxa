@@ -25,6 +25,7 @@ namespace Voxa.Objects.Renderer
         public OrthographicCamera Camera;
         public int                Priority;
 
+        private bool isInit = false;
         private VertexBuffer<TextVertex> vertexBuffer;
         private VertexArray<TextVertex>  vertexArray;
         private TextVertex[]             textVertices;
@@ -40,7 +41,7 @@ namespace Voxa.Objects.Renderer
             this.Font = font;
             this.Scale = 1;
             this.Camera = Engine.RenderingPool.UICamera;
-            this.Priority = 100;
+            this.Priority = 1000;
         }
 
         public TextRenderer(string text, Vector2 position, Color4 color, Font font, double scale)
@@ -51,7 +52,7 @@ namespace Voxa.Objects.Renderer
             this.Font = font;
             this.Scale = scale;
             this.Camera = Engine.RenderingPool.UICamera;
-            this.Priority = 100;
+            this.Priority = 1000;
         }
 
         public TextRenderer(string text, Vector2 position, Color4 color, Font font, OrthographicCamera camera)
@@ -61,7 +62,7 @@ namespace Voxa.Objects.Renderer
             this.Position = position;
             this.Font = font;
             this.Camera = camera;
-            this.Priority = 100;
+            this.Priority = 1000;
             this.Scale = 1;
         }
 
@@ -73,19 +74,22 @@ namespace Voxa.Objects.Renderer
 
         public void Init()
         {
-            Engine.UniformManager.AddUniform(new Matrix4Uniform("textProjection"));
-            Engine.UniformManager.AddUniform(new Sampler2DUniform("textTexture"));
-            Engine.UniformManager.AddUniform(new Vector3Uniform("textColor"));
+            if (!this.isInit) {
+                this.isInit = true;
+                Engine.UniformManager.AddUniform(new Matrix4Uniform("textProjection"));
+                Engine.UniformManager.AddUniform(new Sampler2DUniform("textTexture"));
+                Engine.UniformManager.AddUniform(new Vector3Uniform("textColor"));
 
-            this.vertexBuffer = new VertexBuffer<TextVertex>(TextVertex.Size, PrimitiveType.Triangles);
-            this.vertexBuffer.BufferUsage = BufferUsageHint.DynamicDraw;
-            this.vertexArray = new VertexArray<TextVertex>(
-                this.vertexBuffer, this.GetShader(),
-                new VertexAttribute("vPosition", 2, VertexAttribPointerType.Float, TextVertex.Size, 0),
-                new VertexAttribute("vTexCoord", 2, VertexAttribPointerType.Float, TextVertex.Size, 8)
-            );
-            this.UpdateVertexBuffer();
-            Engine.RenderingPool.AddToPool(this, this.Priority);
+                this.vertexBuffer = new VertexBuffer<TextVertex>(TextVertex.Size, PrimitiveType.Triangles);
+                this.vertexBuffer.BufferUsage = BufferUsageHint.DynamicDraw;
+                this.vertexArray = new VertexArray<TextVertex>(
+                    this.vertexBuffer, this.GetShader(),
+                    new VertexAttribute("vPosition", 2, VertexAttribPointerType.Float, TextVertex.Size, 0),
+                    new VertexAttribute("vTexCoord", 2, VertexAttribPointerType.Float, TextVertex.Size, 8)
+                );
+                this.UpdateVertexBuffer();
+                Engine.RenderingPool.AddToPool(this, this.Priority);
+            }
         }
 
         public void Render()
@@ -183,6 +187,13 @@ namespace Voxa.Objects.Renderer
         public ShaderProgram GetShader()
         {
             return this.CustomShader ?? Engine.RenderingPool.TextShaderProgram;
+        }
+
+        public override void OnDestroy()
+        {
+            this.CustomShader = null;
+            Engine.RenderingPool.RemoveFromPool(this);
+            base.OnDestroy();
         }
     }
 }

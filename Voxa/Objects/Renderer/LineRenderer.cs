@@ -15,6 +15,7 @@ namespace Voxa.Objects.Renderer
 
         public List<DebugLine> Lines;
 
+        private bool isInit = false;
         private VertexBuffer<UnlitColouredVertex> vertexBuffer;
         private VertexArray<UnlitColouredVertex>  vertexArray;
 
@@ -37,17 +38,18 @@ namespace Voxa.Objects.Renderer
 
         public void Init()
         {
-            Engine.UniformManager.AddUniform(new Matrix4Uniform("cameraProjection"));
+            if (!this.isInit) {
+                Engine.UniformManager.AddUniform(new Matrix4Uniform("cameraProjection"));
 
-            this.vertexBuffer = new VertexBuffer<UnlitColouredVertex>(UnlitColouredVertex.Size, PrimitiveType.Lines);
-            //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
-            this.vertexArray = new VertexArray<UnlitColouredVertex>(this.vertexBuffer, this.GetShader(),
-                new VertexAttribute("vPosition", 3, VertexAttribPointerType.Float, UnlitColouredVertex.Size, 0),
-                new VertexAttribute("vColor", 4, VertexAttribPointerType.Float, UnlitColouredVertex.Size, 12)
-            );
+                this.vertexBuffer = new VertexBuffer<UnlitColouredVertex>(UnlitColouredVertex.Size, PrimitiveType.Lines);
+                this.vertexArray = new VertexArray<UnlitColouredVertex>(this.vertexBuffer, this.GetShader(),
+                    new VertexAttribute("vPosition", 3, VertexAttribPointerType.Float, UnlitColouredVertex.Size, 0),
+                    new VertexAttribute("vColor", 4, VertexAttribPointerType.Float, UnlitColouredVertex.Size, 12)
+                );
 
-            Engine.RenderingPool.AddToPool(this);
-            this.UpdateVertexBuffer();
+                Engine.RenderingPool.AddToPool(this);
+                this.UpdateVertexBuffer();
+            }
         }
 
         public void Render()

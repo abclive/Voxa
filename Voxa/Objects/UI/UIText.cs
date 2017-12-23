@@ -278,5 +278,12 @@ namespace Voxa.Objects.UI
                 this.textRenderer.UpdateVertexBuffer();
             }
         }
+
+        public void Destroy()
+        {
+            this.textRenderer = null;
+            this.Parent = null;
+            this.gameObject = null;
+        }
     }
 }

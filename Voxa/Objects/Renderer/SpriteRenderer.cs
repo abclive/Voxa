@@ -19,6 +19,7 @@ namespace Voxa.Objects.Renderer
         public OrthographicCamera   Camera;
         public int                  Priority;
 
+        private bool isInit = false;
         private VertexBuffer<SpriteVertex> vertexBuffer;
         private VertexArray<SpriteVertex>  vertexArray;
 
@@ -63,20 +64,23 @@ namespace Voxa.Objects.Renderer
 
         public void Init()
         {
-            Engine.UniformManager.AddUniform(new Matrix4Uniform("cameraProjection"));
-            Engine.UniformManager.AddUniform(new Sampler2DUniform("spriteTexture"));
+            if (!this.isInit) {
+                Engine.UniformManager.AddUniform(new Matrix4Uniform("cameraProjection"));
+                Engine.UniformManager.AddUniform(new Sampler2DUniform("spriteTexture"));
 
-            this.Sprite.Texture.Load();
+                this.Sprite.Texture.Load();
 
-            this.vertexBuffer = new VertexBuffer<SpriteVertex>(SpriteVertex.Size, PrimitiveType.Quads);
-            this.vertexArray = new VertexArray<SpriteVertex>(
-                this.vertexBuffer, this.GetShader(),
-                new VertexAttribute("vPosition", 3, VertexAttribPointerType.Float, SpriteVertex.Size, 0),
-                new VertexAttribute("vColor", 4, VertexAttribPointerType.Float, SpriteVertex.Size, 12),
-                new VertexAttribute("vTexCoord", 2, VertexAttribPointerType.Float, SpriteVertex.Size, 28)
-            );
-            this.UpdateVertexBuffer();
-            Engine.RenderingPool.AddToPool(this, this.Priority);
+                this.vertexBuffer = new VertexBuffer<SpriteVertex>(SpriteVertex.Size, PrimitiveType.Quads);
+                this.vertexArray = new VertexArray<SpriteVertex>(
+                    this.vertexBuffer, this.GetShader(),
+                    new VertexAttribute("vPosition", 3, VertexAttribPointerType.Float, SpriteVertex.Size, 0),
+                    new VertexAttribute("vColor", 4, VertexAttribPointerType.Float, SpriteVertex.Size, 12),
+                    new VertexAttribute("vTexCoord", 2, VertexAttribPointerType.Float, SpriteVertex.Size, 28)
+                );
+                this.UpdateVertexBuffer();
+                Engine.RenderingPool.AddToPool(this, this.Priority);
+                this.isInit = true;
+            }
         }
 
         public void Render()
