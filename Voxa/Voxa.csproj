@@ -125,6 +125,7 @@
     <Compile Include="Rendering\TexturedVertex.cs" />
     <Compile Include="Rendering\UniformManager.cs" />
     <Compile Include="Rendering\Uniforms\FloatUniform.cs" />
+    <Compile Include="Rendering\Uniforms\IntUniform.cs" />
     <Compile Include="Rendering\Uniforms\IUniform.cs" />
     <Compile Include="Rendering\Uniforms\LightUniform.cs" />
     <Compile Include="Rendering\Uniforms\MaterialUniform.cs" />

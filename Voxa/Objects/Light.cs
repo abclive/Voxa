@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics;
 using Voxa.Rendering.Uniforms;
+using Voxa.Rendering;
 
 namespace Voxa.Objects
 {
@@ -35,12 +36,20 @@ namespace Voxa.Objects
             this.Color = Color4.White;
         }
 
-        public void Bind()
+        public void Bind(ShaderProgram shaderProgram)
         {
             LightUniform currentLightUniform = Engine.UniformManager.GetUniform<LightUniform>("light");
             currentLightUniform.Color = new Vector3(this.Color.R, this.Color.G, this.Color.B);
             currentLightUniform.Position = this.gameObject.Transform.Position;
-            currentLightUniform.Set(Engine.RenderingPool.PhongShaderProgram);
+            currentLightUniform.Set(shaderProgram);
+        }
+
+        public void Bind(ShaderProgram shaderProgram, int lightNumber)
+        {
+            LightUniform currentLightUniform = Engine.UniformManager.GetUniform<LightUniform>("lights");
+            currentLightUniform.Color = new Vector3(this.Color.R, this.Color.G, this.Color.B);
+            currentLightUniform.Position = this.gameObject.Transform.Position;
+            currentLightUniform.Set(shaderProgram, lightNumber);
         }
     }
 }

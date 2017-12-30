@@ -86,9 +86,14 @@ namespace Voxa.Objects.Renderer
 
         public void Render()
         {
-            Light light = Engine.Game.CurrentScene.GetClosestLight(this.gameObject);
-            if (light != null) {
-                light.Bind();
+            List<Light> lights = Engine.Game.CurrentScene.GetClosestLights(this.gameObject, RenderingPool.MAX_LIGHTS);
+            if (lights != null) {
+                IntUniform lightsCount = Engine.UniformManager.GetUniform<IntUniform>("lightsCount");
+                lightsCount.Value = lights.Count;
+                lightsCount.Set(this.GetShader());
+                for (int i = 0; i < lights.Count; i++) {
+                    lights[i].Bind(this.GetShader(), i);
+                }
             }
             foreach (Mesh mesh in this.Model.Meshes) {
                 Matrix4 transformMatrix = this.gameObject.Transform.GetLocalToWorldMatrix();

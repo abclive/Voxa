@@ -49,6 +49,21 @@ namespace Voxa.Objects
             return (lights.Count > 0) ? lights.First().Value : null;
         }
 
+        public List<Light> GetClosestLights(GameObject target, int maxLights)
+        {
+            SortedDictionary<float, Light> lights = new SortedDictionary<float, Light>();
+            foreach (GameObject go in this.gameObjectList) {
+                Light light = go.GetComponent<Light>();
+                if (light != null) {
+                    lights.Add(target.Transform.Position.Distance(go.Transform.Position), light);
+                }
+            }
+            if (lights.Count > 0) {
+                return lights.Values.ToList().GetRange(0, Math.Min(maxLights, lights.Count));
+            }
+            return null;
+        }
+
         public void SetShadingUniforms(ShaderProgram shader)
         {
             this.ambientLightColorUniform = new Vector3Uniform("ambientLightColor", this.SceneLight.Color);

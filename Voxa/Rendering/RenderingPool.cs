@@ -14,6 +14,8 @@ namespace Voxa.Rendering
 {
     public sealed class RenderingPool
     {
+        public const int MAX_LIGHTS = 4;
+
         private Matrix4         projectionMatrix;
         private ShaderProgram   phongShaderProgram;
         private ShaderProgram   spriteShaderProgram;
@@ -65,10 +67,12 @@ namespace Voxa.Rendering
 
             Engine.UniformManager.AddUniform(new Matrix4Uniform("projectionMatrix", Matrix4.Mult(modelview, this.projectionMatrix)));
             Engine.UniformManager.AddUniform(new LightUniform("light"));
+            Engine.UniformManager.AddUniform(new LightUniform("lights"));
             Engine.UniformManager.AddUniform(new Matrix4Uniform("modelMatrix"));
             Engine.UniformManager.AddUniform(new Matrix3Uniform("normalMatrix"));
             Engine.UniformManager.AddUniform(new Vector3Uniform("cameraPosition"));
-            Engine.UniformManager.AddUniform(new MaterialUniform("material")); 
+            Engine.UniformManager.AddUniform(new MaterialUniform("material"));
+            Engine.UniformManager.AddUniform(new IntUniform("lightsCount"));
 
             this.loaded = true;
         }

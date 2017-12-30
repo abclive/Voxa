@@ -42,6 +42,14 @@ namespace Voxa.Rendering.Uniforms
             GL.Uniform3(i, this.Color);
         }
 
+        public void Set(ShaderProgram program, int lightNumber)
+        {
+            int i = program.GetUniformLocation($"{this.name}[{lightNumber}].position");
+            GL.Uniform3(i, this.Position);
+            i = program.GetUniformLocation($"{this.name}[{lightNumber}].color");
+            GL.Uniform3(i, this.Color);
+        }
+
         public string GetName()
         {
             return this.name;

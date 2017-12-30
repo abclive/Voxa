@@ -7,12 +7,18 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Voxa.Rendering.Uniforms
 {
-    public sealed class FloatUniform : IUniform
+    public sealed class IntUniform : IUniform
     {
         private readonly string name;
-        public float Value;
+        public int Value;
 
-        public FloatUniform(string name, float value)
+
+        public IntUniform(string name)
+        {
+            this.name = name;
+        }
+
+        public IntUniform(string name, int value)
         {
             this.name = name;
             this.Value = value;
