@@ -10,6 +10,15 @@ namespace Voxa.Utils
 {
     public static class ResourceManager
     {
+        public static string GetTextAssetContent(string path)
+        {
+            using (FileStream stream = new FileStream(path, FileMode.Open))
+            using (StreamReader reader = new StreamReader(stream)) {
+                string result = reader.ReadToEnd();
+                return result;
+            }
+        }
+
         public static string GetTextResource(string resourcePath)
         {
             Assembly assembly = GetAssemblyContext(resourcePath);
