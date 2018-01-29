@@ -63,6 +63,7 @@
       <HintPath>..\packages\OpenTK.2.0.0\lib\net20\OpenTK.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="SharpFont">
       <HintPath>..\..\Astrarium\packages\SharpFont.4.0.1\lib\net45\SharpFont.dll</HintPath>
       <Private>True</Private>
@@ -140,6 +141,7 @@
     <Compile Include="Rendering\VertexBuffer.cs" />
     <Compile Include="Objects\Scene.cs" />
     <Compile Include="Primitives\Shape\Block.cs" />
+    <Compile Include="Utils\GameConfigurationLoader.cs" />
     <Compile Include="Utils\GLTFParser.cs" />
     <Compile Include="Utils\Logger.cs" />
     <Compile Include="Utils\Extensions.cs" />

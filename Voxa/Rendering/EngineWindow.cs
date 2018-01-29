@@ -19,7 +19,7 @@ namespace Voxa.Rendering
 
         private bool lockMouse;
 
-        public EngineWindow(int windowWidth, int windowHeight, string windowTitle = "Voxa", bool lockMouse = true) : base(windowWidth, windowHeight, new GraphicsMode(32, 1, 0, 4), windowTitle, GameWindowFlags.Default, DisplayDevice.Default, 3, 0, GraphicsContextFlags.ForwardCompatible)
+        public EngineWindow(int windowWidth, int windowHeight, bool fullscreen = false, string windowTitle = "Voxa", bool lockMouse = true) : base(windowWidth, windowHeight, new GraphicsMode(32, 1, 0, 4), windowTitle, (fullscreen) ? GameWindowFlags.Fullscreen : GameWindowFlags.FixedWindow, DisplayDevice.Default, 3, 0, GraphicsContextFlags.ForwardCompatible)
         {
             this.VSync = VSyncMode.Off;
             Logger.Info("OpenGL version: " + GL.GetString(StringName.Version));
@@ -30,7 +30,7 @@ namespace Voxa.Rendering
         {
             base.OnLoad(e);
 
-            GL.ClearColor(Engine.Game.ClearColor.X, Engine.Game.ClearColor.Y, Engine.Game.ClearColor.Z, Engine.Game.ClearColor.W);
+            GL.ClearColor(Engine.Game.Config.ClearColor.X, Engine.Game.Config.ClearColor.Y, Engine.Game.Config.ClearColor.Z, Engine.Game.Config.ClearColor.W);
 
             GL.Enable(EnableCap.Multisample);
             GL.Enable(EnableCap.DepthTest);

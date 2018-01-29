@@ -62,7 +62,7 @@ namespace Voxa.Rendering
             this.rendererPool = new List<IRenderer>();
 
             this.UICamera = new OrthographicCamera(Engine.EngineWindow.Width, Engine.EngineWindow.Height, 0, 200);
-            this.projectionMatrix = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, Engine.EngineWindow.Width / (float)Engine.EngineWindow.Height, 0.1f, Engine.Game.RENDER_DISTANCE);
+            this.projectionMatrix = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, Engine.EngineWindow.Width / (float)Engine.EngineWindow.Height, 0.1f, Engine.Game.Config.RenderDistance);
             Matrix4 modelview = Matrix4.LookAt(Vector3.Zero, Vector3.UnitZ, Vector3.UnitY);
 
             Engine.UniformManager.AddUniform(new Matrix4Uniform("projectionMatrix", Matrix4.Mult(modelview, this.projectionMatrix)));

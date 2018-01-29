@@ -6,28 +6,45 @@ using System.Threading.Tasks;
 using OpenTK;
 using Voxa.Objects;
 using Voxa.Utils;
+using System.Windows;
 
 namespace Voxa.Logic
 {
     public class Game
     {
-        public virtual int WINDOW_WIDTH { get { return 640; } }
-        public virtual int WINDOW_HEIGHT { get { return 400; } }
-        public virtual int RENDER_DISTANCE { get { return 1; } }
-        public virtual double TARGET_UPDATE_RATE { get { return 60; } }
-        public virtual bool LOCK_MOUSE { get { return true; } }
-        public virtual string WINDOW_TITLE { get { return "Voxa"; } }
-
-        public virtual Vector4 ClearColor { get { return new Vector4(0.12f, 0.48f, 0.69f, 1.0f); } }
+        public class Configuration
+        {
+            public int     WindowWidth = 640;
+            public int     WindowHeight = 400;
+            public int     RenderDistance = 100;
+            public double  TargetUpdateRate = 60;
+            public bool    LockMouse = false;
+            public string  WindowTitle = "Voxa";
+            public Vector4 ClearColor = new Vector4(0.12f, 0.48f, 0.69f, 1.0f);
+            public bool    Fullscreen = false;
+        }
 
         public double UpdateElapsedTime { get; private set; }
         public double RenderElapsedTime { get; private set; }
 
+        public Configuration Config { get; protected set; }
         public Scene  CurrentScene;
 
         public Game()
         {
+            this.Config = new Configuration();
             Logger.AddStickyInfo("engineStats", new LoggerMessage("", ConsoleColor.Blue));
+        }
+
+        public Game(Configuration config)
+        {
+            this.Config = config;
+        }
+
+        protected void TryLoadConfig()
+        {
+            Configuration config = GameConfigurationLoader.Load();
+            if (config != null) this.Config = config;
         }
 
         public virtual void Start()

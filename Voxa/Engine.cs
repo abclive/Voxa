@@ -41,13 +41,13 @@ namespace Voxa
             Logger.AddStickyInfo("voxaInfo", new LoggerMessage("V O X A - Lite 3D Engine v" + VERSION_MAJOR + "." + VERSION_MINOR, ConsoleColor.Cyan));
             Logger.Info("Starting Voxa Engine v" + VERSION_MAJOR + "." + VERSION_MINOR);
             Game = gameInstance;
-            EngineWindow = new EngineWindow(gameInstance.WINDOW_WIDTH, gameInstance.WINDOW_HEIGHT, gameInstance.WINDOW_TITLE, gameInstance.LOCK_MOUSE);
+            EngineWindow = new EngineWindow(gameInstance.Config.WindowWidth, gameInstance.Config.WindowHeight, gameInstance.Config.Fullscreen, gameInstance.Config.WindowTitle, gameInstance.Config.LockMouse);
             RenderingPool = new RenderingPool();
             UniformManager = new UniformManager();
             TaskQueue = new TaskQueue();
             FontLibrary = new Library();
 
-            EngineWindow.Run(gameInstance.TARGET_UPDATE_RATE, 0);
+            EngineWindow.Run(gameInstance.Config.TargetUpdateRate, 0);
         }
     }
 }

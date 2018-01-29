@@ -35,8 +35,8 @@ namespace Voxa.Objects.UI
 
         private GameObject linkedObject;
 
-        private List<DebugLine> debugLines;
-        private LineRenderer lineRenderer;
+        //private List<DebugLine> debugLines;
+        //private LineRenderer lineRenderer;
 
         public UIButton(Vector2 position, Size size, string text, Color4 color, Rendering.Font font, GameObject linkedObject, Sprite backgroundSprite = null)
         {

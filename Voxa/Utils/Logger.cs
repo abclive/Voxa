@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace Voxa.Utils
 {
@@ -47,8 +48,14 @@ namespace Voxa.Utils
 
         private static bool isDirty = false;
 
+        [DllImport("kernel32.dll")]
+        static extern bool FreeConsole();
+
         static Logger()
         {
+#if !(DEBUG)
+            FreeConsole();
+#else
             Thread loggerThread = new Thread(() => {
                 while (true) {
                     Thread.Sleep(SLEEP_INTERVAL);
@@ -57,6 +64,7 @@ namespace Voxa.Utils
             });
             loggerThread.IsBackground = true;
             loggerThread.Start();
+#endif
         }
 
         public static void AddStickyInfo(string identifier)
